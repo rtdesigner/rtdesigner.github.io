@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RTDesigner — Richard Tavares | Design Gráfico, Sites, Apps & IA</title>
+<meta name="description" content="RTDesigner — Richard Tavares. Design gráfico, criação de sites, aplicativos e soluções de inteligência artificial. Performance // Web // AI // Digital.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cdefs%3E%3Cpath id='q' d='M0 -54 A54 54 0 0 0 -54 0 L0 0Z'/%3E%3C/defs%3E%3Cg transform='translate(60 60)'%3E%3Cuse href='%23q' fill='%23fecb1a'/%3E%3Cuse href='%23q' transform='rotate(90)' fill='%23f2f2f2'/%3E%3Cuse href='%23q' transform='rotate(180)' fill='%23161616'/%3E%3Cuse href='%23q' transform='rotate(270)' fill='%23161616'/%3E%3C/g%3E%3Ctext x='60' y='92' text-anchor='middle' font-family='Arial Black' font-weight='900' font-size='40' fill='white'%3Ert%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+<style type="text/tailwindcss">
+@theme {
+  --color-rt: #fecb1a;
+  --color-rt-soft: #ffe37e;
+  --color-ink: #050505;
+  --color-coal: #0a0a0a;
+  --color-panel: #0f0f0f;
+  --font-display: "Syne", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+</style>
+
+<style>
+  html { background: #050505; }
+  body { overflow-x: hidden; }
+  ::selection { background: #fecb1a; color: #000; }
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: #050505; }
+  ::-webkit-scrollbar-thumb { background: #262626; border-radius: 10px; border: 2px solid #050505; }
+  ::-webkit-scrollbar-thumb:hover { background: #fecb1a; }
+
+  .text-stroke { -webkit-text-stroke: 1.5px rgba(255,255,255,.85); color: transparent; }
+  .text-stroke-rt { -webkit-text-stroke: 1.5px rgba(254,203,26,.75); color: transparent; }
+  @media (max-width: 640px){
+    .text-stroke, .text-stroke-rt { -webkit-text-stroke-width: 1px; }
+  }
+
+  .clip-btn { clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px); }
+
+  .bg-grid {
+    background-image: linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .marquee-track { animation: marquee 26s linear infinite; }
+  .marquee-track:hover { animation-play-state: paused; }
+
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+  @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  .animate-floaty { animation: floaty 4.5s ease-in-out infinite; }
+  .animate-floaty-r { animation: floaty 5.5s ease-in-out infinite reverse; }
+  .caret { animation: blink 1s steps(1) infinite; }
+
+  #cursor-dot, #cursor-ring { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; border-radius: 9999px; }
+  #cursor-dot { width: 8px; height: 8px; background: #fecb1a; }
+  #cursor-ring {
+    width: 38px; height: 38px; border: 1px solid rgba(254,203,26,.55);
+    transition: width .35s cubic-bezier(.22,.61,.36,1), height .35s cubic-bezier(.22,.61,.36,1), background-color .35s, border-color .35s;
+    background: transparent;
+  }
+  #cursor-ring.is-active { width: 64px; height: 64px; background: rgba(254,203,26,.08); border-color: rgba(254,203,26,.9); }
+  @media (hover: none), (pointer: coarse) { #cursor-dot, #cursor-ring { display: none; } }
+
+  .nav-scrolled { background: rgba(5,5,5,.82); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-bottom: 1px solid rgba(255,255,255,.06); }
+  .nav-link { position: relative; }
+  .nav-link::after { content: ''; position: absolute; left: 0; bottom: -6px; width: 0; height: 1px; background: #fecb1a; transition: width .35s; }
+  .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+  .nav-link.active { color: #fecb1a !important; }
+
+  .filter-btn { border: 1px solid rgba(255,255,255,.15); color: rgba(255,255,255,.55); transition: all .35s; }
+  .filter-btn:hover { border-color: rgba(254,203,26,.6); color: #fff; }
+  .filter-btn.filter-active { background: #fecb1a; border-color: #fecb1a; color: #000; }
+
+  .service-card { transition: transform .5s cubic-bezier(.22,.61,.36,1), border-color .5s, background-color .5s; }
+  .service-card:hover { transform: translateY(-8px); border-color: rgba(254,203,26,.5) !important; background-color: rgba(254,203,26,.04) !important; }
+  .service-card:hover .service-glow { opacity: 1; }
+
+  .work-card img { transition: transform .8s cubic-bezier(.22,.61,.36,1), filter .8s; }
+  .work-card:hover img { transform: scale(1.08); filter: grayscale(0) contrast(1) !important; }
+
+  input, select, textarea { outline: none; }
+  input:focus, select:focus, textarea:focus { border-color: rgba(254,203,26,.7) !important; box-shadow: 0 0 0 3px rgba(254,203,26,.1); }
+</style>
+</head>
+
+<body class="bg-ink text-white font-sans antialiased selection:bg-rt selection:text-black">
+
+<!-- ============ SVG DEFS: LOGO RTDESIGNER (recriada em vetor) ============ -->
+<svg class="hidden" aria-hidden="true">
+  <defs>
+    <path id="rt-q" d="M0 -54 A54 54 0 0 0 -54 0 L0 0 Z"/>
+    <symbol id="rt-mark" viewBox="0 0 120 120">
+      <circle cx="60" cy="60" r="58" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+      <g transform="translate(60 60)">
+        <use href="#rt-q" transform="translate(-1.8 -1.8)" fill="#fecb1a"/>
+        <use href="#rt-q" transform="rotate(90) translate(-1.8 -1.8)" fill="#f2f2f2"/>
+        <use href="#rt-q" transform="rotate(180) translate(-1.8 -1.8)" fill="#181818"/>
+        <use href="#rt-q" transform="rotate(270) translate(-1.8 -1.8)" fill="#181818"/>
+      </g>
+      <text x="60" y="94" text-anchor="middle" font-family="Syne, sans-serif" font-weight="800" font-size="42" letter-spacing="-2" fill="#ffffff">rt</text>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ============ PRELOADER ============ -->
+<div id="preloader" class="fixed inset-0 z-[200] bg-ink flex items-center justify-center">
+  <div class="pre-inner flex flex-col items-center gap-9">
+    <div class="relative">
+      <img src="assets/img/Logo-RTDesigner.png" alt="RTDesigner" class="w-39 h-39 animate-floaty object-contain">
+      <div class="absolute -inset-3 rounded-full border border-rt/30 animate-ping"></div>
+    </div>
+    <div class="text-center">
+      <div id="pre-num" class="font-display font-extrabold text-5xl text-rt tabular-nums">0%</div>
+      <div class="font-mono text-[10px] tracking-[.45em] text-white/40 mt-3 uppercase">Carregando experiência</div>
+    </div>
+    <div class="w-60 h-px bg-white/10 overflow-hidden"><div id="pre-bar" class="h-full w-0 bg-rt"></div></div>
+  </div>
+</div>
+
+<!-- ============ CURSOR ============ -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- ============ NOISE / TEXTURE ============ -->
+<div class="pointer-events-none fixed inset-0 z-[84] opacity-[.05]" style="background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E&quot;)"></div>
+
+<!-- ============ NAVBAR ============ -->
+<header id="site-nav" class="fixed top-0 inset-x-0 z-[90] transition-all duration-500">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex items-center justify-between h-20">
+      <a href="#inicio" class="flex items-center gap-3 group" data-hover>
+        <img
+    src="assets/img/Logo-RTDesigner.png"
+    alt="RTDesigner"
+    class="h-14 w-auto object-contain">
+        </span>
+      </a>
+
+      <nav id="nav-links" class="hidden lg:flex items-center gap-9">
+        <a href="sobre.html" class="nav-link font-mono text-[11px] tracking-[.22em] text-white/60 hover:text-white transition uppercase"><span class="text-rt">01</span>&nbsp;Sobre</a>
+        <a href="servicos.html" class="nav-link font-mono text-[11px] tracking-[.22em] text-white/60 hover:text-white transition uppercase"><span class="text-rt">02</span>&nbsp;Serviços</a>
+        <a href="portfolio.html" class="nav-link font-mono text-[11px] tracking-[.22em] text-white/60 hover:text-white transition uppercase"><span class="text-rt">03</span>&nbsp;Portfólio</a>
+        <a href="processo.html" class="nav-link font-mono text-[11px] tracking-[.22em] text-white/60 hover:text-white transition uppercase"><span class="text-rt">04</span>&nbsp;Processo</a>
+        <a href="contato.html" class="nav-link font-mono text-[11px] tracking-[.22em] text-white/60 hover:text-white transition uppercase"><span class="text-rt">05</span>&nbsp;Contato</a>
+      </nav>
+
+      <div class="flex items-center gap-4">
+        <a href="#contato" data-magnetic="0.3" class="clip-btn hidden md:inline-flex items-center gap-2 bg-rt text-black font-semibold text-sm px-6 py-3 hover:bg-white transition-colors duration-300">
+          ORÇAMENTO <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+        </a>
+        <button id="menu-btn" aria-label="Abrir menu" class="lg:hidden relative w-11 h-11 border border-white/15 flex items-center justify-center text-white hover:border-rt hover:text-rt transition">
+          <i data-lucide="menu" class="w-5 h-5" id="icon-open"></i>
+          <i data-lucide="x" class="w-5 h-5 hidden" id="icon-close"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ MOBILE MENU ============ -->
+<div id="mobile-menu" class="fixed inset-0 z-[89] bg-ink/[.98] backdrop-blur-2xl translate-x-full transition-transform duration-500 ease-[cubic-bezier(.22,.61,.36,1)] lg:hidden flex flex-col justify-between pt-32 pb-10 px-8">
+  <nav class="flex flex-col gap-2">
+    <a href="sobre.html" class="mm-link ..."><span class="font-mono text-xs text-rt">01</span>Sobre</a>
+    <a href="servicos.html" class="mm-link ..."><span class="font-mono text-xs text-rt">02</span>Serviços</a>
+    <a href="portfolio.html" class="mm-link ..."><span class="font-mono text-xs text-rt">03</span>Portfólio</a>
+    <a href="processo.html" class="mm-link ..."><span class="font-mono text-xs text-rt">04</span>Processo</a>
+    <a href="contato.html" class="mm-link ..."><span class="font-mono text-xs text-rt">05</span>Contato</a>
+  </nav>
+  <div class="flex items-center justify-between">
+    <div class="flex gap-3">
+      <a href="#" aria-label="Instagram" class="w-10 h-10 border border-white/15 flex items-center justify-center text-white/60 hover:text-rt hover:border-rt transition"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+      <a href="#" aria-label="Dribbble" class="w-10 h-10 border border-white/15 flex items-center justify-center text-white/60 hover:text-rt hover:border-rt transition"><i data-lucide="dribbble" class="w-4 h-4"></i></a>
+      <a href="#" aria-label="LinkedIn" class="w-10 h-10 border border-white/15 flex items-center justify-center text-white/60 hover:text-rt hover:border-rt transition"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
+      <a href="#" aria-label="GitHub" class="w-10 h-10 border border-white/15 flex items-center justify-center text-white/60 hover:text-rt hover:border-rt transition"><i data-lucide="github" class="w-4 h-4"></i></a>
+    </div>
+    <span class="font-mono text-[10px] tracking-[.3em] text-white/30">RTD © 2026</span>
+  </div>
+</div>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<section id="inicio" class="relative min-h-screen flex flex-col overflow-hidden pt-36 pb-10">
+  <canvas id="hero-canvas" class="absolute inset-0 w-full h-full"></canvas>
+  <div class="absolute inset-0 bg-grid [mask-image:radial-gradient(ellipse_70%_60%_at_50%_40%,black,transparent)] opacity-70 pointer-events-none"></div>
+  <div class="orb absolute -top-40 -left-40 w-[550px] h-[550px] rounded-full bg-rt/10 blur-[140px] pointer-events-none" data-parallax="-18"></div>
+  <div class="orb absolute top-1/3 -right-52 w-[500px] h-[500px] rounded-full bg-rt/[.07] blur-[130px] pointer-events-none" data-parallax="22"></div>
+  <div class="absolute -bottom-10 -right-6 font-display font-extrabold text-[24vw] leading-none text-white/[0.025] select-none pointer-events-none" data-parallax="14">RT</div>
+
+  <!-- HUD cantos -->
+  <div class="hidden md:block absolute top-24 left-6 w-8 h-8 border-t border-l border-rt/40 pointer-events-none"></div>
+  <div class="hidden md:block absolute top-24 right-6 w-8 h-8 border-t border-r border-rt/40 pointer-events-none"></div>
+  <div class="hidden md:block absolute bottom-6 left-6 w-8 h-8 border-b border-l border-rt/40 pointer-events-none"></div>
+  <div class="hidden md:block absolute bottom-6 right-6 w-8 h-8 border-b border-r border-rt/40 pointer-events-none"></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-6 w-full my-auto">
+    <div data-hero class="inline-flex items-center gap-3 border border-white/10 bg-white/5 backdrop-blur px-4 py-2 rounded-full mb-8">
+      <span class="relative flex h-2 w-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rt opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-rt"></span>
+      </span>
+      <span class="font-mono text-[10px] md:text-[11px] tracking-[.3em] text-white/70 uppercase">Disponível para novos projetos</span>
+    </div>
+
+    <h1 class="font-display font-extrabold uppercase leading-[.95] text-[clamp(2.7rem,8.5vw,7.6rem)] tracking-tight">
+      <span data-hero class="block">Design que</span>
+      <span data-hero class="block text-stroke">conecta marcas</span>
+      <span data-hero class="block">ao <span class="text-transparent bg-clip-text bg-gradient-to-r from-rt to-rt-soft">futuro<i class="text-rt not-italic">.</i></span></span>
+    </h1>
+
+    <div class="mt-10 flex flex-col lg:flex-row lg:items-end gap-8 lg:gap-16">
+      <div data-hero class="font-mono text-sm md:text-base text-white/80 h-6">
+        <span class="text-white/40">&gt;_</span> <span id="typed" class="text-rt font-medium"></span><span class="caret inline-block w-[9px] h-[1.05em] bg-rt ml-1 align-[-3px]"></span>
+      </div>
+      <p data-hero class="max-w-xl text-white/55 leading-relaxed">
+        Sou <span class="text-white font-medium">Richard Tavares</span>, o profissional por trás da <span class="text-rt">RTDesigner</span>. Transformo ideias em identidades visuais, sites, aplicativos e soluções de inteligência artificial que impulsionam marcas para o próximo nível.
+      </p>
+    </div>
+
+    <div data-hero class="mt-12 flex flex-wrap items-center gap-5">
+      <a href="#portfolio" data-magnetic="0.25" class="clip-btn inline-flex items-center gap-3 bg-rt text-black font-semibold px-8 py-4 hover:bg-white transition-colors duration-300">
+        VER PROJETOS <i data-lucide="arrow-down-right" class="w-5 h-5"></i>
+      </a>
+      <a href="#contato" data-magnetic="0.25" class="clip-btn inline-flex items-center gap-3 border border-white/25 text-white font-semibold px-8 py-4 hover:border-rt hover:text-rt transition-colors duration-300">
+        INICIAR UM PROJETO <i data-lucide="rocket" class="w-5 h-5"></i>
+      </a>
+    </div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-6 w-full mt-20">
+    <div data-hero class="flex items-center justify-between border-t border-white/10 pt-6">
+      <div class="flex items-center gap-3 font-mono text-[10px] tracking-[.35em] text-white/40 uppercase">
+        <span class="block w-px h-10 bg-gradient-to-b from-rt to-transparent"></span>
+        Role para explorar
+      </div>
+      <div class="hidden sm:flex items-center gap-2 font-mono text-[10px] tracking-[.3em] text-white/40 uppercase">
+        <i data-lucide="cpu" class="w-4 h-4 text-rt"></i> Design + Código + IA
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<div class="relative overflow-hidden py-8 select-none" aria-hidden="true">
+  <div class="-rotate-[1.4deg] w-[110%] -ml-[5%] bg-rt text-black py-3.5 shadow-[0_0_60px_rgba(254,203,26,.25)]">
+    <div class="marquee-track flex items-center gap-10 whitespace-nowrap w-max will-change-transform">
+      <div class="flex items-center gap-10 shrink-0">
+        <span class="font-display font-bold uppercase text-lg tracking-wide">Design Gráfico</span><span class="w-2.5 h-2.5 bg-black rotate-45 shrink-0"></span>
+        <span class="font-display font-bold uppercase text-lg tracking-wide">Websites</span><span class="w-2.5 h-2.5 bg-black rotate-45 shrink-0"></span>
+        <span class="font-display font-bold uppercase text-lg tracking-wide">Aplicativos</span><span class="w-2.5 h-2.5 bg-black rotate-45 shrink-0"></span>
+        <span class="font-display font-bold uppercase text-lg tracking-wide">Inteligência Artificial</span><span class="w-2.5 h-2.5 bg-black rotate-45 shrink-0"></span>
+        <span class="font-display font-bold uppercase text-lg tracking-wide">Branding</span><span class="w-2.5 h-2.5 bg-black rotate-45 shrink-0"></span>
+        <span class="font-display font-bold uppercase text-lg tracking-wide">UI/UX Design</span><span class="w-2.5 h-2.5 bg-black rotate-45 shrink-0"></span>
+        <span class="font-display font-bold uppercase text-lg tracking-wide">Automação</span><span class="w-2.5 h-2.5 bg-black rotate-45 shrink-0"></span>
+      </div>
+      <div class="flex items-center gap-10 shrink-0">
+        <span class="font-display font-bold uppercase text-lg tracking-wide">Design Gráfico</span><span class="w-2.5 h-2.5 bg-black rotate-45 shrink-0"></span>
+        <span class="font-display font-bold uppercase text-lg tracking-wide">Websites</span><span class="w-2.5 h-2.5 bg-black rotate-45 shrink-0"></span>
+        <span class="font-display font-bold uppercase text-lg tracking-wide">Aplicativos</span><span class="w-2.5 h-2.5 bg-black rotate-45 shrink-0"></span>
+        <span class="font-display font-bold uppercase text-lg tracking-wide">Inteligência Artificial</span><span class="w-2.5 h-2.5 bg-black rotate-45 shrink-0"></span>
+        <span class="font-display font-bold uppercase text-lg tracking-wide">Branding</span><span class="w-2.5 h-2.5 bg-black rotate-45 shrink-0"></span>
+        <span class="font-display font-bold uppercase text-lg tracking-wide">UI/UX Design</span><span class="w-2.5 h-2.5 bg-black rotate-45 shrink-0"></span>
+        <span class="font-display font-bold uppercase text-lg tracking-wide">Automação</span><span class="w-2.5 h-2.5 bg-black rotate-45 shrink-0"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SOBRE ============ -->
+<section id="sobre" class="relative py-28 scroll-mt-24">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+
+      <div class="relative max-w-md w-full mx-auto lg:mx-0" data-reveal>
+        <div class="absolute -inset-8 rounded-full border border-white/10 animate-[spin_28s_linear_infinite] hidden sm:block">
+          <span class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-rt rounded-full shadow-[0_0_12px_#fecb1a]"></span>
+        </div>
+        <div class="absolute -inset-20 rounded-full border border-white/[0.05] hidden sm:block"></div>
+        <div class="relative overflow-hidden rounded-2xl border border-white/10 bg-panel/70 backdrop-blur aspect-square flex items-center justify-center will-change-transform" data-tilt>
+          <div class="absolute inset-0 bg-grid opacity-60"></div>
+          <div class="absolute -top-24 -right-24 w-64 h-64 bg-rt/15 blur-[100px] rounded-full"></div>
+          <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-rt/[.08] blur-[100px] rounded-full"></div>
+          <svg class="relative w-36 h-36 md:w-44 md:h-44 drop-shadow-[0_0_30px_rgba(254,203,26,.15)]"><use href="#rt-mark"/></svg>
+          <div class="absolute top-5 right-5 border border-rt/40 bg-ink/80 backdrop-blur px-3 py-2 rounded-lg font-mono text-[10px] tracking-widest text-rt animate-floaty">8+ ANOS</div>
+          <div class="absolute bottom-5 left-5 border border-white/15 bg-ink/80 backdrop-blur px-3 py-2 rounded-lg font-mono text-[10px] tracking-widest text-white/70 animate-floaty-r">150+ PROJETOS</div>
+          <div class="absolute top-5 left-5 font-mono text-[9px] tracking-[.3em] text-white/30">EST. 2018</div>
+          <div class="absolute bottom-5 right-5 font-mono text-[9px] tracking-[.3em] text-white/30">FOUNDER / CD</div>
+        </div>
+      </div>
+
+      <div>
+        <div data-reveal class="flex items-center gap-4 mb-6">
+          <span class="font-mono text-xs text-rt tracking-[.3em]">// 01</span>
+          <span class="w-12 h-px bg-rt/50"></span>
+          <span class="font-mono text-xs text-white/40 tracking-[.3em] uppercase">Sobre mim</span>
+        </div>
+        <h2 data-reveal class="font-display font-extrabold text-4xl md:text-6xl uppercase leading-[1.02] tracking-tight">
+          Prazer, <span class="text-rt">Richard</span><br>
+          <span class="text-stroke">Tavares</span>
+        </h2>
+        <p data-reveal class="mt-8 text-white/60 leading-relaxed">
+          Designer gráfico e desenvolvedor criativo, fundador da <span class="text-white font-medium">RTDesigner</span>. Há mais de 8 anos transformo ideias em experiências visuais e digitais que unem estratégia, estética e tecnologia de ponta.
+        </p>
+        <p data-reveal class="mt-4 text-white/60 leading-relaxed">
+          Do branding à inteligência artificial, cada projeto nasce de uma obsessão: criar soluções que não apenas pareçam extraordinárias, mas que performem, convertam e coloquem marcas à frente do futuro.
+        </p>
+
+        <div data-reveal class="mt-8 flex flex-wrap gap-2.5">
+          <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">ILLUSTRATOR</span>
+          <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">PHOTOSHOP</span>
+          <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">FIGMA</span>
+          <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">AFTER EFFECTS</span>
+          <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">HTML / CSS</span>
+          <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">JAVASCRIPT</span>
+          <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">WORDPRESS</span>
+          <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">UI / UX</span>
+          <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">IA GENERATIVA</span>
+          <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">CHATBOTS</span>
+          <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">AUTOMAÇÃO</span>
+          <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">BRANDING</span>
+        </div>
+
+        <a data-reveal href="#contato" data-magnetic="0.25" class="clip-btn mt-10 inline-flex items-center gap-3 border border-rt/60 text-rt font-semibold px-8 py-4 hover:bg-rt hover:text-black transition-colors duration-300">
+          VAMOS TRABALHAR JUNTOS <i data-lucide="arrow-right" class="w-5 h-5"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="mt-24 grid grid-cols-2 md:grid-cols-4 gap-px bg-white/10 border border-white/10">
+      <div data-reveal class="bg-ink p-8 md:p-10 text-center group hover:bg-panel transition-colors">
+        <div class="font-display font-extrabold text-4xl md:text-5xl text-rt"><span data-count="8" data-suffix="+">0+</span></div>
+        <div class="font-mono text-[10px] tracking-[.25em] text-white/40 uppercase mt-3">Anos de experiência</div>
+      </div>
+      <div data-reveal class="bg-ink p-8 md:p-10 text-center group hover:bg-panel transition-colors">
+        <div class="font-display font-extrabold text-4xl md:text-5xl text-rt"><span data-count="150" data-suffix="+">0+</span></div>
+        <div class="font-mono text-[10px] tracking-[.25em] text-white/40 uppercase mt-3">Projetos entregues</div>
+      </div>
+      <div data-reveal class="bg-ink p-8 md:p-10 text-center group hover:bg-panel transition-colors">
+        <div class="font-display font-extrabold text-4xl md:text-5xl text-rt"><span data-count="60" data-suffix="+">0+</span></div>
+        <div class="font-mono text-[10px] tracking-[.25em] text-white/40 uppercase mt-3">Clientes atendidos</div>
+      </div>
+      <div data-reveal class="bg-ink p-8 md:p-10 text-center group hover:bg-panel transition-colors">
+        <div class="font-display font-extrabold text-4xl md:text-5xl text-rt"><span data-count="98" data-suffix="%">0%</span></div>
+        <div class="font-mono text-[10px] tracking-[.25em] text-white/40 uppercase mt-3">Satisfação</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVIÇOS ============ -->
+<section id="servicos" class="relative py-28 scroll-mt-24">
+  <div class="absolute top-1/4 left-0 w-[400px] h-[400px] bg-rt/[.05] blur-[130px] rounded-full pointer-events-none" data-parallax="18"></div>
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
+      <div>
+        <div data-reveal class="flex items-center gap-4 mb-6">
+          <span class="font-mono text-xs text-rt tracking-[.3em]">// 02</span>
+          <span class="w-12 h-px bg-rt/50"></span>
+          <span class="font-mono text-xs text-white/40 tracking-[.3em] uppercase">Serviços</span>
+        </div>
+        <h2 data-reveal class="font-display font-extrabold text-4xl md:text-6xl uppercase leading-[1.02] tracking-tight">
+          O que eu <span class="text-stroke-rt">faço</span>
+        </h2>
+      </div>
+      <p data-reveal class="max-w-sm text-white/50 text-sm leading-relaxed">
+        Soluções completas para a sua marca dominar o digital — do primeiro traço da identidade visual à inteligência artificial que vende por você.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      <!-- 01 -->
+      <div data-reveal class="service-card group relative border border-white/10 bg-panel/50 p-8 md:p-10 overflow-hidden rounded-xl" data-tilt>
+        <div class="service-glow absolute -bottom-24 -right-24 w-64 h-64 bg-rt/15 blur-[90px] rounded-full opacity-0 transition-opacity duration-700 pointer-events-none"></div>
+        <span class="absolute top-6 right-8 font-display font-extrabold text-6xl text-white/[.06] group-hover:text-rt/15 transition-colors duration-500 select-none">01</span>
+        
+        <div class="relative w-14 h-14 border border-rt/30 bg-rt/10 rounded-lg flex items-center justify-center text-rt group-hover:bg-rt group-hover:text-black transition-all duration-500">
+          <!-- Modificado: de data-lucide="palette" para Font Awesome -->
+          <i class="fas fa-palette text-xl"></i>
+        </div>
+        
+        <h3 class="relative font-display font-bold text-2xl md:text-3xl mt-8 uppercase">Design Gráfico</h3>
+        <p class="relative text-white/55 mt-4 leading-relaxed text-[15px]">
+          Identidades visuais marcantes, logotipos, branding completo e peças que fazem sua marca ser lembrada — do cartão de visita ao outdoor digital.
+        </p>
+        <div class="relative mt-6 flex flex-wrap gap-2">
+          <span class="font-mono text-[10px] tracking-widest px-3 py-1.5 border border-white/10 text-white/45">IDENTIDADE VISUAL</span>
+          <span class="font-mono text-[10px] tracking-widest px-3 py-1.5 border border-white/10 text-white/45">BRANDING</span>
+          <span class="font-mono text-[10px] tracking-widest px-3 py-1.5 border border-white/10 text-white/45">SOCIAL MEDIA</span>
+        </div>
+        
+        <!-- Modificado: de data-lucide="arrow-up-right" para Font Awesome -->
+        <a href="#contato" class="relative mt-8 inline-flex items-center gap-2 font-mono text-[11px] tracking-[.25em] text-white/50 group-hover:text-rt transition-colors uppercase">
+          Explorar <i class="fas fa-arrow-up-right text-xs"></i>
+        </a>
+        
+        <span class="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-rt to-transparent scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700"></span>
+      </div>
+
+      <!-- 02 -->
+      <div data-reveal class="service-card group relative border border-white/10 bg-panel/50 p-8 md:p-10 overflow-hidden rounded-xl" data-tilt>
+        <div class="service-glow absolute -bottom-24 -right-24 w-64 h-64 bg-rt/15 blur-[90px] rounded-full opacity-0 transition-opacity duration-700 pointer-events-none"></div>
+        <span class="absolute top-6 right-8 font-display font-extrabold text-6xl text-white/[.06] group-hover:text-rt/15 transition-colors duration-500 select-none">02</span>
+        
+        <div class="relative w-14 h-14 border border-rt/30 bg-rt/10 rounded-lg flex items-center justify-center text-rt group-hover:bg-rt group-hover:text-black transition-all duration-500">
+          <!-- Modificado: de data-lucide="globe" para Font Awesome -->
+          <i class="fas fa-globe text-xl"></i>
+        </div>
+        
+        <h3 class="relative font-display font-bold text-2xl md:text-3xl mt-8 uppercase">Websites</h3>
+        <p class="relative text-white/55 mt-4 leading-relaxed text-[15px]">
+          Sites institucionais, landing pages e e-commerces ultrarrápidos, responsivos e otimizados para transformar visitantes em clientes.
+        </p>
+        <div class="relative mt-6 flex flex-wrap gap-2">
+          <span class="font-mono text-[10px] tracking-widest px-3 py-1.5 border border-white/10 text-white/45">LANDING PAGES</span>
+          <span class="font-mono text-[10px] tracking-widest px-3 py-1.5 border border-white/10 text-white/45">E-COMMERCE</span>
+          <span class="font-mono text-[10px] tracking-widest px-3 py-1.5 border border-white/10 text-white/45">SEO & PERFORMANCE</span>
+        </div>
+        
+        <!-- Modificado: de data-lucide="arrow-up-right" para Font Awesome -->
+        <a href="#contato" class="relative mt-8 inline-flex items-center gap-2 font-mono text-[11px] tracking-[.25em] text-white/50 group-hover:text-rt transition-colors uppercase">
+          Explorar <i class="fas fa-arrow-up-right text-xs"></i>
+        </a>
+        
+        <span class="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-rt to-transparent scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700"></span>
+      </div>
+
+      <!-- 03 -->
+      <div data-reveal class="service-card group relative border border-white/10 bg-panel/50 p-8 md:p-10 overflow-hidden rounded-xl" data-tilt>
+        <div class="service-glow absolute -bottom-24 -right-24 w-64 h-64 bg-rt/15 blur-[90px] rounded-full opacity-0 transition-opacity duration-700 pointer-events-none"></div>
+        <span class="absolute top-6 right-8 font-display font-extrabold text-6xl text-white/[.06] group-hover:text-rt/15 transition-colors duration-500 select-none">03</span>
+        
+        <div class="relative w-14 h-14 border border-rt/30 bg-rt/10 rounded-lg flex items-center justify-center text-rt group-hover:bg-rt group-hover:text-black transition-all duration-500">
+          <!-- Modificado: de data-lucide="smartphone" para Font Awesome -->
+          <i class="fas fa-mobile-alt text-xl"></i>
+        </div>
+        
+        <h3 class="relative font-display font-bold text-2xl md:text-3xl mt-8 uppercase">Aplicativos</h3>
+        <p class="relative text-white/55 mt-4 leading-relaxed text-[15px]">
+          Aplicativos mobile e web apps com interfaces intuitivas, prototipagem avançada e experiências que os usuários amam usar todos os dias.
+        </p>
+        <div class="relative mt-6 flex flex-wrap gap-2">
+          <span class="font-mono text-[10px] tracking-widest px-3 py-1.5 border border-white/10 text-white/45">iOS & ANDROID</span>
+          <span class="font-mono text-[10px] tracking-widest px-3 py-1.5 border border-white/10 text-white/45">UI/UX DESIGN</span>
+          <span class="font-mono text-[10px] tracking-widest px-3 py-1.5 border border-white/10 text-white/45">PROTOTIPAGEM</span>
+        </div>
+        
+        <!-- Modificado: de data-lucide="arrow-up-right" para Font Awesome -->
+        <a href="#contato" class="relative mt-8 inline-flex items-center gap-2 font-mono text-[11px] tracking-[.25em] text-white/50 group-hover:text-rt transition-colors uppercase">
+          Explorar <i class="fas fa-arrow-up-right text-xs"></i>
+        </a>
+        
+        <span class="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-rt to-transparent scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700"></span>
+      </div>
+
+      <!-- 04 -->
+      <div data-reveal class="service-card group relative border border-white/10 bg-panel/50 p-8 md:p-10 overflow-hidden rounded-xl" data-tilt>
+        <div class="service-glow absolute -bottom-24 -right-24 w-64 h-64 bg-rt/15 blur-[90px] rounded-full opacity-0 transition-opacity duration-700 pointer-events-none"></div>
+        <span class="absolute top-6 right-8 font-display font-extrabold text-6xl text-white/[.06] group-hover:text-rt/15 transition-colors duration-500 select-none">04</span>
+        
+        <div class="relative w-14 h-14 border border-rt/30 bg-rt/10 rounded-lg flex items-center justify-center text-rt group-hover:bg-rt group-hover:text-black transition-all duration-500">
+          <!-- Modificado: de data-lucide="brain-circuit" para Font Awesome -->
+          <i class="fas fa-brain text-xl"></i>
+        </div>
+        
+        <h3 class="relative font-display font-bold text-2xl md:text-3xl mt-8 uppercase">Inteligência Artificial</h3>
+        <p class="relative text-white/55 mt-4 leading-relaxed text-[15px]">
+          Chatbots inteligentes, automações e integrações com IA generativa que escalam o atendimento, eliminam tarefas repetitivas e multiplicam resultados.
+        </p>
+        <div class="relative mt-6 flex flex-wrap gap-2">
+          <span class="font-mono text-[10px] tracking-widest px-3 py-1.5 border border-white/10 text-white/45">CHATBOTS</span>
+          <span class="font-mono text-[10px] tracking-widest px-3 py-1.5 border border-white/10 text-white/45">AUTOMAÇÃO</span>
+          <span class="font-mono text-[10px] tracking-widest px-3 py-1.5 border border-white/10 text-white/45">IA GENERATIVA</span>
+        </div>
+        
+        <!-- Modificado: de data-lucide="arrow-up-right" para Font Awesome -->
+        <a href="#contato" class="relative mt-8 inline-flex items-center gap-2 font-mono text-[11px] tracking-[.25em] text-white/50 group-hover:text-rt transition-colors uppercase">
+          Explorar <i class="fas fa-arrow-up-right text-xs"></i>
+        </a>
+        
+        <span class="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-rt to-transparent scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700"></span>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<!-- ============ PORTFÓLIO ============ -->
+<section id="portfolio" class="relative py-28 scroll-mt-24 bg-coal/50 border-y border-white/5">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-14">
+      <div>
+        <div data-reveal class="flex items-center gap-4 mb-6">
+          <span class="font-mono text-xs text-rt tracking-[.3em]">// 03</span>
+          <span class="w-12 h-px bg-rt/50"></span>
+          <span class="font-mono text-xs text-white/40 tracking-[.3em] uppercase">Portfólio</span>
+        </div>
+        <h2 data-reveal class="font-display font-extrabold text-4xl md:text-6xl uppercase leading-[1.02] tracking-tight">
+          Trabalhos<br><span class="text-stroke">selecionados</span>
+        </h2>
+      </div>
+      <div data-reveal class="flex flex-wrap gap-2.5" id="filters">
+        <button data-filter="all" class="filter-btn filter-active font-mono text-[11px] tracking-[.2em] px-5 py-2.5 uppercase">Todos</button>
+        <button data-filter="branding" class="filter-btn font-mono text-[11px] tracking-[.2em] px-5 py-2.5 uppercase">Branding</button>
+        <button data-filter="site" class="filter-btn font-mono text-[11px] tracking-[.2em] px-5 py-2.5 uppercase">Sites</button>
+        <button data-filter="app" class="filter-btn font-mono text-[11px] tracking-[.2em] px-5 py-2.5 uppercase">Apps</button>
+        <button data-filter="ia" class="filter-btn font-mono text-[11px] tracking-[.2em] px-5 py-2.5 uppercase">IA</button>
+      </div>
+    </div>
+
+    <div id="works-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+      <!-- Aurora Bank -->
+      <a href="#contato" data-cat="branding" data-reveal class="work-card group relative block overflow-hidden rounded-xl border border-white/10 aspect-[4/3] bg-panel">
+        <img src="https://images.pexels.com/photos/30869729/pexels-photo-30869729.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200" alt="Identidade visual Aurora Bank — esfera metálica dourada" loading="lazy" class="w-full h-full object-cover grayscale" onerror="this.style.display='none'">
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent opacity-90"></div>
+        <div class="absolute inset-x-0 bottom-0 p-5 flex items-end justify-between gap-4">
+          <div>
+            <span class="font-mono text-[10px] tracking-[.25em] text-rt uppercase">Branding</span>
+            <h3 class="font-display font-bold text-xl mt-1.5">Aurora Bank</h3>
+            <p class="text-white/45 text-xs mt-1">Identidade visual completa</p>
+          </div>
+          <span class="shrink-0 w-11 h-11 border border-white/25 rounded-full flex items-center justify-center text-white group-hover:bg-rt group-hover:text-black group-hover:border-rt group-hover:rotate-45 transition-all duration-500">
+            <i class="fas fa-arrow-up rotate-45 text-sm"></i>
+          </span>
+        </div>
+      </a>
+
+      <!-- Neon Store -->
+      <a href="#contato" data-cat="site" data-reveal class="work-card group relative block overflow-hidden rounded-xl border border-white/10 aspect-[4/3] bg-panel">
+        <img src="https://images.pexels.com/photos/30530406/pexels-photo-30530406.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200" alt="E-commerce Neon Store — interface em notebook no escuro" loading="lazy" class="w-full h-full object-cover grayscale" onerror="this.style.display='none'">
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent opacity-90"></div>
+        <div class="absolute inset-x-0 bottom-0 p-5 flex items-end justify-between gap-4">
+          <div>
+            <span class="font-mono text-[10px] tracking-[.25em] text-rt uppercase">Website</span>
+            <h3 class="font-display font-bold text-xl mt-1.5">Neon Store</h3>
+            <p class="text-white/45 text-xs mt-1">E-commerce de alta conversão</p>
+          </div>
+          <span class="shrink-0 w-11 h-11 border border-white/25 rounded-full flex items-center justify-center text-white group-hover:bg-rt group-hover:text-black group-hover:border-rt group-hover:rotate-45 transition-all duration-500">
+            <i class="fas fa-arrow-up rotate-45 text-sm"></i>
+          </span>
+        </div>
+      </a>
+
+      <!-- PulseFit -->
+      <a href="#contato" data-cat="app" data-reveal class="work-card group relative block overflow-hidden rounded-xl border border-white/10 aspect-[4/3] bg-panel">
+        <img src="https://images.pexels.com/photos/8721318/pexels-photo-8721318.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200" alt="App PulseFit — experiência imersiva com realidade virtual" loading="lazy" class="w-full h-full object-cover grayscale" onerror="this.style.display='none'">
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent opacity-90"></div>
+        <div class="absolute inset-x-0 bottom-0 p-5 flex items-end justify-between gap-4">
+          <div>
+            <span class="font-mono text-[10px] tracking-[.25em] text-rt uppercase">Aplicativo</span>
+            <h3 class="font-display font-bold text-xl mt-1.5">PulseFit</h3>
+            <p class="text-white/45 text-xs mt-1">App de treinos com UI/UX imersiva</p>
+          </div>
+          <span class="shrink-0 w-11 h-11 border border-white/25 rounded-full flex items-center justify-center text-white group-hover:bg-rt group-hover:text-black group-hover:border-rt group-hover:rotate-45 transition-all duration-500">
+            <i class="fas fa-arrow-up rotate-45 text-sm"></i>
+          </span>
+        </div>
+      </a>
+
+      <!-- Nexus AI -->
+      <a href="#contato" data-cat="ia" data-reveal class="work-card group relative block overflow-hidden rounded-xl border border-white/10 aspect-[4/3] bg-panel">
+        <img src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200" alt="Nexus AI — mão robótica tocando rede digital" loading="lazy" class="w-full h-full object-cover grayscale" onerror="this.style.display='none'">
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent opacity-90"></div>
+        <div class="absolute inset-x-0 bottom-0 p-5 flex items-end justify-between gap-4">
+          <div>
+            <span class="font-mono text-[10px] tracking-[.25em] text-rt uppercase">Inteligência Artificial</span>
+            <h3 class="font-display font-bold text-xl mt-1.5">Nexus AI</h3>
+            <p class="text-white/45 text-xs mt-1">Assistente virtual com IA generativa</p>
+          </div>
+          <span class="shrink-0 w-11 h-11 border border-white/25 rounded-full flex items-center justify-center text-white group-hover:bg-rt group-hover:text-black group-hover:border-rt group-hover:rotate-45 transition-all duration-500">
+            <i class="fas fa-arrow-up rotate-45 text-sm"></i>
+          </span>
+        </div>
+      </a>
+
+      <!-- Orbital -->
+      <a href="#contato" data-cat="site" data-reveal class="work-card group relative block overflow-hidden rounded-xl border border-white/10 aspect-[4/3] bg-panel">
+        <img src="https://images.pexels.com/photos/30869731/pexels-photo-30869731.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200" alt="Landing page Orbital — estrutura geométrica dourada" loading="lazy" class="w-full h-full object-cover grayscale" onerror="this.style.display='none'">
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent opacity-90"></div>
+        <div class="absolute inset-x-0 bottom-0 p-5 flex items-end justify-between gap-4">
+          <div>
+            <span class="font-mono text-[10px] tracking-[.25em] text-rt uppercase">Website</span>
+            <h3 class="font-display font-bold text-xl mt-1.5">Orbital</h3>
+            <p class="text-white/45 text-xs mt-1">Landing page para SaaS</p>
+          </div>
+          <span class="shrink-0 w-11 h-11 border border-white/25 rounded-full flex items-center justify-center text-white group-hover:bg-rt group-hover:text-black group-hover:border-rt group-hover:rotate-45 transition-all duration-500">
+            <i class="fas fa-arrow-up rotate-45 text-sm"></i>
+          </span>
+        </div>
+      </a>
+
+      <!-- Vertex Studio -->
+      <a href="#contato" data-cat="branding" data-reveal class="work-card group relative block overflow-hidden rounded-xl border border-white/10 aspect-[4/3] bg-panel">
+        <img src="https://images.pexels.com/photos/29450016/pexels-photo-29450016.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200" alt="Rebranding Vertex Studio — formas geométricas luminosas" loading="lazy" class="w-full h-full object-cover grayscale" onerror="this.style.display='none'">
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent opacity-90"></div>
+        <div class="absolute inset-x-0 bottom-0 p-5 flex items-end justify-between gap-4">
+          <div>
+            <span class="font-mono text-[10px] tracking-[.25em] text-rt uppercase">Branding</span>
+            <h3 class="font-display font-bold text-xl mt-1.5">Vertex Studio</h3>
+            <p class="text-white/45 text-xs mt-1">Rebranding & direção de arte</p>
+          </div>
+          <span class="shrink-0 w-11 h-11 border border-white/25 rounded-full flex items-center justify-center text-white group-hover:bg-rt group-hover:text-black group-hover:border-rt group-hover:rotate-45 transition-all duration-500">
+            <i class="fas fa-arrow-up rotate-45 text-sm"></i>
+          </span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROCESSO ============ -->
+<section id="processo" class="relative py-28 scroll-mt-24">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
+      <div>
+        <div data-reveal class="flex items-center gap-4 mb-6">
+          <span class="font-mono text-xs text-rt tracking-[.3em]">// 04</span>
+          <span class="w-12 h-px bg-rt/50"></span>
+          <span class="font-mono text-xs text-white/40 tracking-[.3em] uppercase">Processo</span>
+        </div>
+        <h2 data-reveal class="font-display font-extrabold text-4xl md:text-6xl uppercase leading-[1.02] tracking-tight">
+          Da ideia ao <span class="text-rt">lançamento</span>
+        </h2>
+      </div>
+      <p data-reveal class="max-w-sm text-white/50 text-sm leading-relaxed">
+        Um fluxo de trabalho refinado em centenas de projetos, com transparência total em cada etapa.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
+      
+      <!-- 01 Descoberta -->
+      <div data-reveal class="group">
+        <div class="font-display font-extrabold text-5xl text-stroke group-hover:text-rt group-hover:[-webkit-text-stroke:0px] transition-all duration-500">01</div>
+        <div class="relative w-full h-px bg-white/10 my-6">
+          <span class="absolute -top-[3px] left-0 w-[7px] h-[7px] bg-rt group-hover:scale-[1.8] group-hover:shadow-[0_0_14px_#fecb1a] transition-all duration-500"></span>
+        </div>
+        <h3 class="font-display font-bold text-xl uppercase flex items-center gap-3">
+          <i class="fas fa-search text-sm text-rt"></i>Descoberta
+        </h3>
+        <p class="text-white/50 text-sm leading-relaxed mt-3">Imersão no seu negócio, público e objetivos para definir a estratégia certa antes de qualquer pixel.</p>
+      </div>
+
+      <!-- 02 Conceito -->
+      <div data-reveal class="group">
+        <div class="font-display font-extrabold text-5xl text-stroke group-hover:text-rt group-hover:[-webkit-text-stroke:0px] transition-all duration-500">02</div>
+        <div class="relative w-full h-px bg-white/10 my-6">
+          <span class="absolute -top-[3px] left-0 w-[7px] h-[7px] bg-rt group-hover:scale-[1.8] group-hover:shadow-[0_0_14px_#fecb1a] transition-all duration-500"></span>
+        </div>
+        <h3 class="font-display font-bold text-xl uppercase flex items-center gap-3">
+          <i class="fas fa-lightbulb text-sm text-rt"></i>Conceito
+        </h3>
+        <p class="text-white/50 text-sm leading-relaxed mt-3">Pesquisa, referências e direção de arte: o nascimento da ideia que vai diferenciar a sua marca.</p>
+      </div>
+
+      <!-- 03 Criação -->
+      <div data-reveal class="group">
+        <div class="font-display font-extrabold text-5xl text-stroke group-hover:text-rt group-hover:[-webkit-text-stroke:0px] transition-all duration-500">03</div>
+        <div class="relative w-full h-px bg-white/10 my-6">
+          <span class="absolute -top-[3px] left-0 w-[7px] h-[7px] bg-rt group-hover:scale-[1.8] group-hover:shadow-[0_0_14px_#fecb1a] transition-all duration-500"></span>
+        </div>
+        <h3 class="font-display font-bold text-xl uppercase flex items-center gap-3">
+          <i class="fas fa-pen-nib text-sm text-rt"></i>Criação
+        </h3>
+        <p class="text-white/50 text-sm leading-relaxed mt-3">Design e desenvolvimento com ciclos curtos de feedback, refinamento e obsessão por detalhes.</p>
+      </div>
+
+      <!-- 04 Entrega -->
+      <div data-reveal class="group">
+        <div class="font-display font-extrabold text-5xl text-stroke group-hover:text-rt group-hover:[-webkit-text-stroke:0px] transition-all duration-500">04</div>
+        <div class="relative w-full h-px bg-white/10 my-6">
+          <span class="absolute -top-[3px] left-0 w-[7px] h-[7px] bg-rt group-hover:scale-[1.8] group-hover:shadow-[0_0_14px_#fecb1a] transition-all duration-500"></span>
+        </div>
+        <h3 class="font-display font-bold text-xl uppercase flex items-center gap-3">
+          <i class="fas fa-rocket text-sm text-rt"></i>Entrega
+        </h3>
+        <p class="text-white/50 text-sm leading-relaxed mt-3">Lançamento, otimização de performance e suporte contínuo para o projeto evoluir com o seu negócio.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ DEPOIMENTOS ============ -->
+<section id="depoimentos" class="relative py-28 bg-coal/50 border-y border-white/5 overflow-hidden">
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-rt/[.06] blur-[130px] rounded-full pointer-events-none"></div>
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-14">
+      <div data-reveal class="inline-flex items-center gap-4 mb-6">
+        <span class="font-mono text-xs text-rt tracking-[.3em]">// 05</span>
+        <span class="w-12 h-px bg-rt/50"></span>
+        <span class="font-mono text-xs text-white/40 tracking-[.3em] uppercase">Depoimentos</span>
+      </div>
+      <h2 data-reveal class="font-display font-extrabold text-4xl md:text-6xl uppercase leading-[1.02] tracking-tight">
+        Quem confia, <span class="text-stroke-rt">recomenda</span>
+      </h2>
+    </div>
+
+    <div data-reveal class="relative max-w-4xl mx-auto" id="testi-root">
+      <div class="overflow-hidden">
+        <div id="testi-track" class="flex transition-transform duration-[800ms] ease-[cubic-bezier(.22,.61,.36,1)]">
+
+          <figure class="w-full shrink-0 px-4 md:px-12 text-center">
+            <i data-lucide="quote" class="w-10 h-10 text-rt mx-auto mb-8 rotate-180"></i>
+            <blockquote class="text-xl md:text-3xl font-light leading-snug text-white/90">
+              "A RTDesigner transformou completamente nossa presença digital. O novo site aumentou nossas conversões em <span class="text-rt font-medium">240%</span> nos primeiros três meses."
+            </blockquote>
+            <figcaption class="mt-10 flex flex-col items-center gap-3">
+              <span class="w-14 h-14 rounded-full bg-rt text-black font-display font-extrabold flex items-center justify-center text-lg">MC</span>
+              <div>
+                <div class="font-semibold">Marina Costa</div>
+                <div class="font-mono text-[10px] tracking-[.25em] text-white/40 uppercase mt-1">CEO — Nexus Imobiliária</div>
+              </div>
+              <div class="text-rt tracking-[.3em] text-sm">★★★★★</div>
+            </figcaption>
+          </figure>
+
+          <figure class="w-full shrink-0 px-4 md:px-12 text-center">
+            <i data-lucide="quote" class="w-10 h-10 text-rt mx-auto mb-8 rotate-180"></i>
+            <blockquote class="text-xl md:text-3xl font-light leading-snug text-white/90">
+              "O chatbot de IA que o Richard criou atende <span class="text-rt font-medium">80% dos nossos clientes</span> sozinho, 24 horas por dia. Simplesmente impressionante."
+            </blockquote>
+            <figcaption class="mt-10 flex flex-col items-center gap-3">
+              <span class="w-14 h-14 rounded-full bg-rt text-black font-display font-extrabold flex items-center justify-center text-lg">CM</span>
+              <div>
+                <div class="font-semibold">Carlos Mendes</div>
+                <div class="font-mono text-[10px] tracking-[.25em] text-white/40 uppercase mt-1">Diretor — TechFlow</div>
+              </div>
+              <div class="text-rt tracking-[.3em] text-sm">★★★★★</div>
+            </figcaption>
+          </figure>
+
+          <figure class="w-full shrink-0 px-4 md:px-12 text-center">
+            <i data-lucide="quote" class="w-10 h-10 text-rt mx-auto mb-8 rotate-180"></i>
+            <blockquote class="text-xl md:text-3xl font-light leading-snug text-white/90">
+              "Identidade visual impecável e uma dedicação rara de encontrar. Cada entrega superou nossas expectativas. <span class="text-rt font-medium">Parceria para a vida.</span>"
+            </blockquote>
+            <figcaption class="mt-10 flex flex-col items-center gap-3">
+              <span class="w-14 h-14 rounded-full bg-rt text-black font-display font-extrabold flex items-center justify-center text-lg">AR</span>
+              <div>
+                <div class="font-semibold">Ana Paula Ribeiro</div>
+                <div class="font-mono text-[10px] tracking-[.25em] text-white/40 uppercase mt-1">Fundadora — Studio Aurora</div>
+              </div>
+              <div class="text-rt tracking-[.3em] text-sm">★★★★★</div>
+            </figcaption>
+          </figure>
+
+        </div>
+      </div>
+
+      <div class="mt-12 flex items-center justify-center gap-6">
+        <button id="testi-prev" aria-label="Depoimento anterior" class="w-11 h-11 border border-white/15 flex items-center justify-center text-white/60 hover:text-rt hover:border-rt transition"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
+        <div class="flex gap-2.5" id="testi-dots">
+          <button aria-label="Ir para depoimento 1" class="testi-dot w-2.5 h-2.5 rounded-full bg-rt transition-all duration-300"></button>
+          <button aria-label="Ir para depoimento 2" class="testi-dot w-2.5 h-2.5 rounded-full bg-white/20 transition-all duration-300"></button>
+          <button aria-label="Ir para depoimento 3" class="testi-dot w-2.5 h-2.5 rounded-full bg-white/20 transition-all duration-300"></button>
+        </div>
+        <button id="testi-next" aria-label="Próximo depoimento" class="w-11 h-11 border border-white/15 flex items-center justify-center text-white/60 hover:text-rt hover:border-rt transition"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VAMOS CONVERSAR ============ -->
+<section class="relative py-32 overflow-hidden">
+  <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
+    <span class="font-display font-extrabold text-[26vw] leading-none text-white/[0.03]" data-parallax="10">RT</span>
+  </div>
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-rt/[.08] blur-[140px] rounded-full pointer-events-none"></div>
+  <div class="relative max-w-4xl mx-auto px-6 text-center">
+    <div data-reveal class="font-mono text-xs text-rt tracking-[.4em] uppercase mb-8">// Vamos conversar</div>
+    <h2 data-reveal class="font-display font-extrabold uppercase leading-[1] text-[clamp(2.2rem,6.5vw,5.5rem)] tracking-tight">
+      Tem um projeto<br><span class="text-stroke">em mente?</span>
+    </h2>
+    <p data-reveal class="mt-8 text-white/55 max-w-xl mx-auto leading-relaxed">
+      Da primeira conversa ao lançamento, eu cuido de tudo. Conte a sua ideia e receba uma proposta sob medida em até 24 horas.
+    </p>
+    <div data-reveal class="mt-12">
+      <a href="#contato" data-magnetic="0.35" class="clip-btn inline-flex items-center gap-3 bg-rt text-black font-display font-bold text-lg px-12 py-6 hover:bg-white transition-colors duration-300 shadow-[0_0_50px_rgba(254,203,26,.3)]">
+        <!-- Modificado: de data-lucide="zap" para Font Awesome -->
+        INICIAR PROJETO <i class="fas fa-bolt text-base"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTATO ============ -->
+<section id="contato" class="relative py-28 scroll-mt-24 bg-coal/50 border-t border-white/5">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex items-center gap-4 mb-6" data-reveal>
+      <span class="font-mono text-xs text-rt tracking-[.3em]">// 06</span>
+      <span class="w-12 h-px bg-rt/50"></span>
+      <span class="font-mono text-xs text-white/40 tracking-[.3em] uppercase">Contato</span>
+    </div>
+    <h2 data-reveal class="font-display font-extrabold text-4xl md:text-6xl uppercase leading-[1.02] tracking-tight mb-16">
+      Vamos criar algo<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-rt to-rt-soft">extraordinário</span>
+    </h2>
+
+    <div class="grid lg:grid-cols-5 gap-12 lg:gap-16">
+      <div class="lg:col-span-2 flex flex-col gap-4">
+        
+        <!-- E-mail -->
+        <a data-reveal href="mailto:contato@rtdesigner.com.br" class="group flex items-center gap-5 border border-white/10 bg-panel/50 p-5 rounded-xl hover:border-rt/50 transition-colors duration-500">
+          <span class="w-12 h-12 shrink-0 border border-rt/30 bg-rt/10 rounded-lg flex items-center justify-center text-rt group-hover:bg-rt group-hover:text-black transition-all duration-500">
+            <i class="fas fa-envelope text-lg"></i>
+          </span>
+          <span>
+            <span class="block font-mono text-[10px] tracking-[.25em] text-white/40 uppercase">E-mail</span>
+            <span class="block font-medium mt-1 group-hover:text-rt transition-colors">contato@rtdesigner.com.br</span>
+          </span>
+        </a>
+
+        <!-- WhatsApp -->
+        <a data-reveal href="https://wa.me/5511999999999" target="_blank" rel="noopener" class="group flex items-center gap-5 border border-white/10 bg-panel/50 p-5 rounded-xl hover:border-rt/50 transition-colors duration-500">
+          <span class="w-12 h-12 shrink-0 border border-rt/30 bg-rt/10 rounded-lg flex items-center justify-center text-rt group-hover:bg-rt group-hover:text-black transition-all duration-500">
+            <i class="fab fa-whatsapp text-xl"></i>
+          </span>
+          <span>
+            <span class="block font-mono text-[10px] tracking-[.25em] text-white/40 uppercase">WhatsApp</span>
+            <span class="block font-medium mt-1 group-hover:text-rt transition-colors">+55 (11) 99999-9999</span>
+          </span>
+        </a>
+
+        <!-- Base -->
+        <div data-reveal class="group flex items-center gap-5 border border-white/10 bg-panel/50 p-5 rounded-xl">
+          <span class="w-12 h-12 shrink-0 border border-rt/30 bg-rt/10 rounded-lg flex items-center justify-center text-rt">
+            <i class="fas fa-map-marker-alt text-lg"></i>
+          </span>
+          <span>
+            <span class="block font-mono text-[10px] tracking-[.25em] text-white/40 uppercase">Base</span>
+            <span class="block font-medium mt-1">São Paulo, Brasil — atendimento global</span>
+          </span>
+        </div>
+        
+      </div>
+
+      <!-- Formulário -->
+      <form id="contact-form" data-reveal class="lg:col-span-3 border border-white/10 bg-panel/60 backdrop-blur rounded-2xl p-7 md:p-10 relative overflow-hidden">
+        <div class="absolute -top-24 -right-24 w-72 h-72 bg-rt/10 blur-[110px] rounded-full pointer-events-none"></div>
+        <div class="relative grid sm:grid-cols-2 gap-5">
+          <div>
+            <label for="f-nome" class="block font-mono text-[10px] tracking-[.25em] text-white/45 uppercase mb-2.5">Seu nome *</label>
+            <input id="f-nome" name="nome" type="text" required placeholder="Como posso te chamar?" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3.5 text-sm placeholder-white/25 transition">
+          </div>
+          <div>
+            <label for="f-email" class="block font-mono text-[10px] tracking-[.25em] text-white/45 uppercase mb-2.5">Seu e-mail *</label>
+            <input id="f-email" name="email" type="email" required placeholder="voce@empresa.com" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3.5 text-sm placeholder-white/25 transition">
+          </div>
+          <div class="sm:col-span-2 relative">
+            <label for="f-servico" class="block font-mono text-[10px] tracking-[.25em] text-white/45 uppercase mb-2.5">Tipo de projeto *</label>
+            <select id="f-servico" name="servico" required class="w-full appearance-none bg-white/5 border border-white/10 rounded-lg px-4 py-3.5 text-sm text-white transition cursor-pointer">
+              <option value="" class="bg-panel text-white/50" disabled selected>Selecione o que você precisa</option>
+              <option value="Design Gráfico" class="bg-panel">Design Gráfico</option>
+              <option value="Website / Landing Page" class="bg-panel">Website / Landing Page</option>
+              <option value="Aplicativo" class="bg-panel">Aplicativo</option>
+              <option value="Inteligência Artificial / Automação" class="bg-panel">Inteligência Artificial / Automação</option>
+              <option value="Projeto completo (Design + Web + IA)" class="bg-panel">Projeto completo (Design + Web + IA)</option>
+            </select>
+            <i class="fas fa-chevron-down text-xs text-white/40 absolute right-4 bottom-4 pointer-events-none"></i>
+          </div>
+          <div class="sm:col-span-2">
+            <label for="f-msg" class="block font-mono text-[10px] tracking-[.25em] text-white/45 uppercase mb-2.5">Conte sobre o projeto *</label>
+            <textarea id="f-msg" name="mensagem" rows="5" required placeholder="Descreva sua ideia, objectives e prazos..." class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3.5 text-sm placeholder-white/25 transition resize-none"></textarea>
+          </div>
+          <div class="sm:col-span-2 pt-2">
+            <button type="submit" data-magnetic="0.2" class="clip-btn w-full inline-flex items-center justify-center gap-3 bg-rt text-black font-display font-bold text-lg px-10 py-5 hover:bg-white transition-colors duration-300">
+              ENVIAR MENSAGEM <i class="fas fa-paper-plane text-base"></i>
+            </button>
+            <p class="font-mono text-[10px] tracking-[.2em] text-white/30 text-center mt-5 uppercase">Ao enviar, você será redirecionado ao WhatsApp</p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="relative border-t border-white/10 pt-16 pb-8 overflow-hidden">
+  <div class="absolute -bottom-40 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-rt/[.05] blur-[140px] rounded-full pointer-events-none"></div>
+  <div class="relative max-w-7xl mx-auto px-6">
+    <a href="#inicio" class="block text-center font-display font-extrabold uppercase leading-none text-[11.5vw] text-stroke hover:text-rt hover:[-webkit-text-stroke:0px] transition-all duration-700 select-none" aria-label="Voltar ao topo">rtdesigner</a>
+
+    <div class="grid md:grid-cols-4 gap-10 mt-16">
+      <div class="md:col-span-2">
+        <!-- Substituído SVG/Texto por Logo PNG -->
+        <a href="#inicio" class="inline-block">
+          <img src="assets/img/Logo-RTDesigner.png" alt="RT Designer Logo" class="h-16 w-auto object-contain">
+        </a>
+        
+        <p class="text-white/45 text-sm leading-relaxed mt-5 max-w-sm">
+          Estúdio criativo de Richard Tavares. Design gráfico, websites, aplicativos e inteligência artificial para marcas que querem liderar o futuro.
+        </p>
+        <p class="font-mono text-[10px] tracking-[.3em] text-rt/70 uppercase mt-5">Performance // Web // AI // Digital</p>
+        
+        <div class="flex gap-3 mt-6">
+          <a href="https://www.instagram.com/rtdesignerofc/" aria-label="Instagram" data-hover class="w-9 h-9 border border-white/15 flex items-center justify-center text-white/60 hover:text-rt hover:border-rt transition">
+            <i class="fab fa-instagram text-base"></i>
+          </a>
+        </div>
+      </div>
+      
+      <div>
+        <h4 class="font-mono text-[11px] tracking-[.3em] text-white/40 uppercase mb-5">Navegação</h4>
+        <ul class="space-y-3 text-sm">
+          <li><a href="#sobre" class="text-white/60 hover:text-rt transition">Sobre mim</a></li>
+          <li><a href="#servicos" class="text-white/60 hover:text-rt transition">Serviços</a></li>
+          <li><a href="#portfolio" class="text-white/60 hover:text-rt transition">Portfólio</a></li>
+          <li><a href="#processo" class="text-white/60 hover:text-rt transition">Processo</a></li>
+          <li><a href="#contato" class="text-white/60 hover:text-rt transition">Contato</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-mono text-[11px] tracking-[.3em] text-white/40 uppercase mb-5">Expertise</h4>
+        <ul class="space-y-3 text-sm">
+          <li class="text-white/60">Design Gráfico & Branding</li>
+          <li class="text-white/60">Sites & Landing Pages</li>
+          <li class="text-white/60">Aplicativos & UI/UX</li>
+          <li class="text-white/60">Inteligência Artificial</li>
+          <li class="text-white/60">Automação & Chatbots</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-14 pt-7 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-5">
+      <p class="font-mono text-[11px] text-white/35 tracking-wider text-center sm:text-left">
+        © <span id="year">2026</span> RTDesigner — Richard Tavares. Todos os direitos reservados.
+      </p>
+      <button id="to-top" aria-label="Voltar ao topo" data-magnetic="0.3" class="clip-btn inline-flex items-center gap-2 border border-white/15 text-white/60 font-mono text-[11px] tracking-[.25em] px-5 py-3 hover:border-rt hover:text-rt transition uppercase">
+        <!-- Atualizado para Font Awesome -->
+        Topo <i class="fas fa-arrow-up text-xs"></i>
+      </button>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ TOAST ============ -->
+<div id="toast" class="hidden fixed bottom-6 right-6 z-[100] max-w-sm bg-panel border border-rt/40 rounded-xl p-5 shadow-[0_0_40px_rgba(254,203,26,.15)]">
+  <div class="flex items-start gap-4">
+    <span class="w-9 h-9 shrink-0 bg-rt rounded-lg flex items-center justify-center text-black"><i data-lucide="check" class="w-5 h-5"></i></span>
+    <div>
+      <div class="font-display font-bold text-sm">Mensagem enviada!</div>
+      <div class="text-white/55 text-xs mt-1 leading-relaxed" data-toast-msg>Abrindo o WhatsApp para concluir o envio...</div>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  'use strict';
+
+  const $  = (s, c = document) => c.querySelector(s);
+  const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+
+  if (window.lucide) lucide.createIcons();
+
+  const hasGsap = typeof gsap !== 'undefined';
+  const hasST   = typeof ScrollTrigger !== 'undefined';
+  if (hasGsap && hasST) gsap.registerPlugin(ScrollTrigger);
+
+  const finePointer  = window.matchMedia('(pointer: fine)').matches;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ================= PRELOADER ================= */
+  const pre = $('#preloader'), preBar = $('#pre-bar'), preNum = $('#pre-num');
+  let preDone = false, prog = 0;
+
+  function heroIntro() {
+    if (!hasGsap || reduceMotion) return;
+    gsap.fromTo('[data-hero]',
+      { y: 54, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1.05, ease: 'power3.out', stagger: 0.09, overwrite: 'auto' }
+    );
+  }
+
+  function hidePreloader() {
+    if (preDone) return;
+    preDone = true;
+    if (hasGsap && !reduceMotion) {
+      gsap.timeline({ onComplete: heroIntro })
+        .to('#preloader .pre-inner', { opacity: 0, y: -34, duration: 0.45, ease: 'power2.in' })
+        .to(pre, { yPercent: -100, duration: 0.9, ease: 'power4.inOut' }, '-=0.05')
+        .set(pre, { display: 'none' });
+    } else {
+      pre.style.display = 'none';
+      heroIntro();
+    }
+  }
+
+  const preIv = setInterval(() => {
+    prog = Math.min(100, prog + Math.random() * 18 + 7);
+    preBar.style.width = prog + '%';
+    preNum.textContent = Math.floor(prog) + '%';
+    if (prog >= 100) { clearInterval(preIv); setTimeout(hidePreloader, 300); }
+  }, 130);
+  setTimeout(hidePreloader, 5000); // segurança
+
+  /* ================= CURSOR CUSTOM ================= */
+  if (finePointer && !reduceMotion) {
+    const dot = $('#cursor-dot'), ring = $('#cursor-ring');
+    let mx = -100, my = -100, rx = -100, ry = -100, active = false;
+
+    window.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.transform = `translate(${mx}px,${my}px) translate(-50%,-50%)`;
+    }, { passive: true });
+
+    (function raf() {
+      rx += (mx - rx) * 0.16;
+      ry += (my - ry) * 0.16;
+      ring.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+      requestAnimationFrame(raf);
+    })();
+
+    $$('a, button, [data-hover], input, select, textarea').forEach(el => {
+      el.addEventListener('mouseenter', () => ring.classList.add('is-active'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('is-active'));
+    });
+    document.addEventListener('mouseleave', () => { dot.style.opacity = 0; ring.style.opacity = 0; });
+    document.addEventListener('mouseenter', () => { dot.style.opacity = 1; ring.style.opacity = 1; });
+  }
+
+  /* ================= PARTÍCULAS (HERO) ================= */
+  const canvas = $('#hero-canvas');
+  if (canvas && !reduceMotion) {
+    const ctx = canvas.getContext('2d');
+    let w = 0, h = 0, parts = [], running = true;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const mouse = { x: -9999, y: -9999 };
+
+    function resize() {
+      const r = canvas.getBoundingClientRect();
+      w = r.width; h = r.height;
+      canvas.width = w * dpr; canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const n = Math.min(85, Math.max(30, Math.floor(w * h / 17000)));
+      parts = Array.from({ length: n }, () => ({
+        x: Math.random() * w, y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.45, vy: (Math.random() - 0.5) * 0.45,
+        r: Math.random() * 1.5 + 0.6
+      }));
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const hero = canvas.parentElement;
+    hero.addEventListener('mousemove', e => {
+      const r = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
+    }, { passive: true });
+    hero.addEventListener('mouseleave', () => { mouse.x = mouse.y = -9999; });
+
+    // pausa quando o hero sai da tela (performance)
+    let rafOn = false;
+    new IntersectionObserver(en => {
+      running = en[0].isIntersecting;
+      if (running && !rafOn) step();
+    }, { threshold: 0 }).observe(hero);
+
+    function step() {
+      if (!running) { rafOn = false; return; }
+      rafOn = true;
+      ctx.clearRect(0, 0, w, h);
+      for (const p of parts) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > w) p.vx *= -1;
+        if (p.y < 0 || p.y > h) p.vy *= -1;
+        const dx = p.x - mouse.x, dy = p.y - mouse.y, d = Math.hypot(dx, dy);
+        if (d > 0 && d < 120) { p.x += (dx / d) * 1.3; p.y += (dy / d) * 1.3; }
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(254,203,26,.55)';
+        ctx.fill();
+      }
+      for (let i = 0; i < parts.length; i++) {
+        for (let j = i + 1; j < parts.length; j++) {
+          const a = parts[i], b = parts[j];
+          const d = Math.hypot(a.x - b.x, a.y - b.y);
+          if (d < 130) {
+            ctx.strokeStyle = `rgba(254,203,26,${(1 - d / 130) * 0.15})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(step);
+    }
+    step();
+  }
+
+  /* ================= EFEITO DIGITANDO ================= */
+  const typedEl = $('#typed');
+  const phrases = [
+    'Designer Gráfico',
+    'Criador de Sites',
+    'Desenvolvedor de Aplicativos',
+    'Especialista em Inteligência Artificial'
+  ];
+  let pi = 0, ci = 0, deleting = false;
+  (function tick() {
+    const p = phrases[pi];
+    ci += deleting ? -1 : 1;
+    typedEl.textContent = p.slice(0, Math.max(0, ci));
+    let delay = deleting ? 38 : 82;
+    if (!deleting && ci === p.length) { delay = 1900; deleting = true; }
+    else if (deleting && ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; delay = 420; }
+    setTimeout(tick, delay);
+  })();
+
+  /* ================= BOTÕES MAGNÉTICOS ================= */
+  if (hasGsap && finePointer && !reduceMotion) {
+    $$('[data-magnetic]').forEach(el => {
+      const v = parseFloat(el.dataset.magnetic);
+      const strength = isNaN(v) ? 0.3 : v;
+      el.addEventListener('mousemove', e => {
+        const r = el.getBoundingClientRect();
+        gsap.to(el, {
+          x: (e.clientX - r.left - r.width / 2) * strength,
+          y: (e.clientY - r.top - r.height / 2) * strength,
+          duration: 0.4, ease: 'power3.out'
+        });
+      });
+      el.addEventListener('mouseleave', () => {
+        gsap.to(el, { x: 0, y: 0, duration: 0.85, ease: 'elastic.out(1,.35)' });
+      });
+    });
+  }
+
+  /* ================= TILT 3D NOS CARDS ================= */
+  if (hasGsap && finePointer && !reduceMotion) {
+    $$('[data-tilt]').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        gsap.to(card, {
+          rotateX: ((e.clientY - r.top) / r.height - 0.5) * -7,
+          rotateY: ((e.clientX - r.left) / r.width - 0.5) * 7,
+          transformPerspective: 900, duration: 0.5, ease: 'power2.out'
+        });
+      });
+      card.addEventListener('mouseleave', () => {
+        gsap.to(card, { rotateX: 0, rotateY: 0, duration: 0.8, ease: 'power3.out' });
+      });
+    });
+  }
+
+  /* ================= REVEALS & PARALLAX ================= */
+  if (hasGsap && hasST && !reduceMotion) {
+    $$('[data-reveal]').forEach(el => {
+      gsap.fromTo(el,
+        { y: 56, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1, ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 88%', once: true } }
+      );
+    });
+    $$('[data-parallax]').forEach(el => {
+      const sp = parseFloat(el.dataset.parallax) || 15;
+      gsap.to(el, {
+        yPercent: sp, ease: 'none',
+        scrollTrigger: { trigger: el.closest('section') || el, start: 'top bottom', end: 'bottom top', scrub: 1.2 }
+      });
+    });
+  } else {
+    $$('[data-reveal]').forEach(el => { el.style.opacity = 1; });
+  }
+
+  /* ================= CONTADORES ================= */
+  const counters = $$('[data-count]');
+  const cObs = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      const el = en.target;
+      cObs.unobserve(el);
+      const target = parseFloat(el.dataset.count);
+      const suffix = el.dataset.suffix || '';
+      if (hasGsap && !reduceMotion) {
+        const o = { v: 0 };
+        gsap.to(o, { v: target, duration: 2.1, ease: 'power2.out',
+          onUpdate: () => { el.textContent = Math.round(o.v) + suffix; } });
+      } else {
+        el.textContent = target + suffix;
+      }
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(c => cObs.observe(c));
+
+  /* ================= NAVBAR / SCROLL SPY ================= */
+  const nav = $('#site-nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('nav-scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  const navLinks = $$('#nav-links a');
+  const spy = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+      }
+    });
+  }, { rootMargin: '-35% 0px -60% 0px' });
+  $$('section[id]').forEach(s => spy.observe(s));
+
+  /* ================= MENU MOBILE ================= */
+  const menuBtn = $('#menu-btn'), mobileMenu = $('#mobile-menu');
+  const iconOpen = $('#icon-open'), iconClose = $('#icon-close');
+  let menuOpen = false;
+
+  function setMenu(open) {
+    menuOpen = open;
+    mobileMenu.classList.toggle('translate-x-full', !open);
+    mobileMenu.classList.toggle('translate-x-0', open);
+    iconOpen.classList.toggle('hidden', open);
+    iconClose.classList.toggle('hidden', !open);
+    document.documentElement.style.overflow = open ? 'hidden' : '';
+    if (open && hasGsap && !reduceMotion) {
+      gsap.fromTo('.mm-link', { x: 60, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.6, ease: 'power3.out', stagger: 0.07, delay: 0.15 });
+    }
+  }
+  menuBtn.addEventListener('click', () => setMenu(!menuOpen));
+  $$('#mobile-menu a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+
+  /* ================= FILTRO DO PORTFÓLIO ================= */
+  const tabs  = $$('[data-filter]');
+  const works = $$('#works-grid > [data-cat]');
+  tabs.forEach(t => t.addEventListener('click', () => {
+    tabs.forEach(x => x.classList.remove('filter-active'));
+    t.classList.add('filter-active');
+    const f = t.dataset.filter;
+    works.forEach(it => {
+      const show = f === 'all' || it.dataset.cat === f;
+      if (show) {
+        it.classList.remove('hidden');
+        if (hasGsap && !reduceMotion) {
+          gsap.fromTo(it, { opacity: 0, scale: 0.94, y: 24 },
+            { opacity: 1, scale: 1, y: 0, duration: 0.55, ease: 'power3.out' });
+        }
+      } else {
+        it.classList.add('hidden');
+      }
+    });
+    if (hasST) ScrollTrigger.refresh();
+  }));
+
+  /* ================= SLIDER DE DEPOIMENTOS ================= */
+  const track = $('#testi-track');
+  if (track) {
+    const total = track.children.length;
+    const dots  = $$('.testi-dot');
+    let idx = 0, auto;
+
+    function go(i) {
+      idx = (i + total) % total;
+      track.style.transform = `translateX(-${idx * 100}%)`;
+      dots.forEach((d, k) => {
+        d.classList.toggle('bg-rt', k === idx);
+        d.classList.toggle('bg-white/20', k !== idx);
+        d.style.width = k === idx ? '26px' : '10px';
+        d.style.borderRadius = '9999px';
+      });
+    }
+    function restart() { clearInterval(auto); auto = setInterval(() => go(idx + 1), 5500); }
+
+    $('#testi-prev').addEventListener('click', () => { go(idx - 1); restart(); });
+    $('#testi-next').addEventListener('click', () => { go(idx + 1); restart(); });
+    dots.forEach((d, k) => d.addEventListener('click', () => { go(k); restart(); }));
+
+    const root = $('#testi-root');
+    root.addEventListener('mouseenter', () => clearInterval(auto));
+    root.addEventListener('mouseleave', restart);
+    restart();
+  }
+
+  /* ================= FORMULÁRIO ================= */
+  const form = $('#contact-form');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const nome    = $('#f-nome').value.trim();
+    const email   = $('#f-email').value.trim();
+    const servico = $('#f-servico').value;
+    const msg     = $('#f-msg').value.trim();
+    const text = encodeURIComponent(
+      `Olá Richard! Meu nome é ${nome} (${email}).\nTenho interesse em: ${servico}.\n\n${msg}`
+    );
+    window.open(`https://wa.me/5511999999999?text=${text}`, '_blank');
+    showToast(`Obrigado, ${nome.split(' ')[0]}! Abrindo o WhatsApp para concluir o envio...`);
+    form.reset();
+  });
+
+  function showToast(msg) {
+    const t = $('#toast');
+    $('[data-toast-msg]', t).textContent = msg;
+    if (window.lucide) lucide.createIcons();
+    t.classList.remove('hidden');
+    if (hasGsap && !reduceMotion) {
+      gsap.killTweensOf(t);
+      gsap.fromTo(t, { y: 90, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' });
+      gsap.to(t, { y: 90, opacity: 0, delay: 3.8, duration: 0.5, ease: 'power2.in',
+        onComplete: () => t.classList.add('hidden') });
+    } else {
+      setTimeout(() => t.classList.add('hidden'), 3800);
+    }
+  }
+
+  /* ================= VOLTAR AO TOPO ================= */
+  $('#to-top').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  /* ================= ANO AUTOMÁTICO ================= */
+  const yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+});
+</script>
+</body>
+</html>
