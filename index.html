@@ -146,7 +146,7 @@
       <nav id="nav-links" class="hidden lg:flex items-center gap-9">
         <a href="sobre.html" class="nav-link font-mono text-[11px] tracking-[.22em] text-white/60 hover:text-white transition uppercase"><span class="text-rt">01</span>&nbsp;Sobre</a>
         <a href="servicos.html" class="nav-link font-mono text-[11px] tracking-[.22em] text-white/60 hover:text-white transition uppercase"><span class="text-rt">02</span>&nbsp;Serviços</a>
-        <a href="portfolio.html" class="nav-link font-mono text-[11px] tracking-[.22em] text-white/60 hover:text-white transition uppercase"><span class="text-rt">03</span>&nbsp;Portfólio</a>
+        <a href="portifolio.html" class="nav-link font-mono text-[11px] tracking-[.22em] text-white/60 hover:text-white transition uppercase"><span class="text-rt">03</span>&nbsp;Portifólio</a>
         <a href="processo.html" class="nav-link font-mono text-[11px] tracking-[.22em] text-white/60 hover:text-white transition uppercase"><span class="text-rt">04</span>&nbsp;Processo</a>
         <a href="contato.html" class="nav-link font-mono text-[11px] tracking-[.22em] text-white/60 hover:text-white transition uppercase"><span class="text-rt">05</span>&nbsp;Contato</a>
       </nav>
@@ -225,10 +225,10 @@
     </div>
 
     <div data-hero class="mt-12 flex flex-wrap items-center gap-5">
-      <a href="#portfolio" data-magnetic="0.25" class="clip-btn inline-flex items-center gap-3 bg-rt text-black font-semibold px-8 py-4 hover:bg-white transition-colors duration-300">
+      <a href="portifolio.html" data-magnetic="0.25" class="clip-btn inline-flex items-center gap-3 bg-rt text-black font-semibold px-8 py-4 hover:bg-white transition-colors duration-300">
         VER PROJETOS <i data-lucide="arrow-down-right" class="w-5 h-5"></i>
       </a>
-      <a href="#contato" data-magnetic="0.25" class="clip-btn inline-flex items-center gap-3 border border-white/25 text-white font-semibold px-8 py-4 hover:border-rt hover:text-rt transition-colors duration-300">
+      <a href="contato.html" data-magnetic="0.25" class="clip-btn inline-flex items-center gap-3 border border-white/25 text-white font-semibold px-8 py-4 hover:border-rt hover:text-rt transition-colors duration-300">
         INICIAR UM PROJETO <i data-lucide="rocket" class="w-5 h-5"></i>
       </a>
     </div>
@@ -279,22 +279,30 @@
   <div class="max-w-7xl mx-auto px-6">
     <div class="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
 
-      <div class="relative max-w-md w-full mx-auto lg:mx-0" data-reveal>
-        <div class="absolute -inset-8 rounded-full border border-white/10 animate-[spin_28s_linear_infinite] hidden sm:block">
-          <span class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-rt rounded-full shadow-[0_0_12px_#fecb1a]"></span>
+      <!-- Container da Foto com Animação ao Fundo -->
+        <div class="relative max-w-md w-full mx-auto lg:mx-0" data-reveal>
+          <!-- Círculo que fica girando ao fundo com o ponto amarelo -->
+          <div class="absolute -inset-8 rounded-full border border-white/10 animate-[spin_28s_linear_infinite] hidden sm:block">
+            <span class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-rt rounded-full shadow-[0_0_12px_#fecb1a]"></span>
+          </div>
+          <div class="absolute -inset-20 rounded-full border border-white/[0.05] hidden sm:block"></div>
+          
+          <!-- Quadrado Principal do Card -->
+          <div class="relative overflow-hidden rounded-2xl border border-white/10 bg-panel/70 backdrop-blur aspect-square will-change-transform flex items-center justify-center" data-tilt>
+            <div class="absolute inset-0 bg-grid opacity-60"></div>
+            <div class="absolute -top-24 -right-24 w-64 h-64 bg-rt/15 blur-[100px] rounded-full"></div>
+            <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-rt/[.08] blur-[100px] rounded-full"></div>
+            
+            <!-- SUA FOTO (Substituiu o Símbolo RT anterior) -->
+            <img src="assets/img/richard.png" alt="Richard Tavares" class="absolute inset-0 w-full h-full object-cover opacity-85 group-hover:opacity-100 transition-opacity duration-500">
+            
+            <!-- Badges e Textos por cima da foto -->
+            <div class="absolute top-5 right-5 border border-rt/40 bg-ink/80 backdrop-blur px-3 py-2 rounded-lg font-mono text-[10px] tracking-widest text-rt animate-floaty z-10">8+ ANOS</div>
+            <div class="absolute bottom-5 left-5 border border-white/15 bg-ink/80 backdrop-blur px-3 py-2 rounded-lg font-mono text-[10px] tracking-widest text-white/70 animate-floaty-r z-10">150+ PROJETOS</div>
+            <div class="absolute top-5 left-5 font-mono text-[9px] tracking-[.3em] text-white/30 z-10">EST. 2018</div>
+            <div class="absolute bottom-5 right-5 font-mono text-[9px] tracking-[.3em] text-white/30 z-10">FOUNDER / CD</div>
+          </div>
         </div>
-        <div class="absolute -inset-20 rounded-full border border-white/[0.05] hidden sm:block"></div>
-        <div class="relative overflow-hidden rounded-2xl border border-white/10 bg-panel/70 backdrop-blur aspect-square flex items-center justify-center will-change-transform" data-tilt>
-          <div class="absolute inset-0 bg-grid opacity-60"></div>
-          <div class="absolute -top-24 -right-24 w-64 h-64 bg-rt/15 blur-[100px] rounded-full"></div>
-          <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-rt/[.08] blur-[100px] rounded-full"></div>
-          <svg class="relative w-36 h-36 md:w-44 md:h-44 drop-shadow-[0_0_30px_rgba(254,203,26,.15)]"><use href="#rt-mark"/></svg>
-          <div class="absolute top-5 right-5 border border-rt/40 bg-ink/80 backdrop-blur px-3 py-2 rounded-lg font-mono text-[10px] tracking-widest text-rt animate-floaty">8+ ANOS</div>
-          <div class="absolute bottom-5 left-5 border border-white/15 bg-ink/80 backdrop-blur px-3 py-2 rounded-lg font-mono text-[10px] tracking-widest text-white/70 animate-floaty-r">150+ PROJETOS</div>
-          <div class="absolute top-5 left-5 font-mono text-[9px] tracking-[.3em] text-white/30">EST. 2018</div>
-          <div class="absolute bottom-5 right-5 font-mono text-[9px] tracking-[.3em] text-white/30">FOUNDER / CD</div>
-        </div>
-      </div>
 
       <div>
         <div data-reveal class="flex items-center gap-4 mb-6">
@@ -314,21 +322,15 @@
         </p>
 
         <div data-reveal class="mt-8 flex flex-wrap gap-2.5">
-          <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">ILLUSTRATOR</span>
           <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">PHOTOSHOP</span>
-          <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">FIGMA</span>
-          <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">AFTER EFFECTS</span>
           <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">HTML / CSS</span>
           <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">JAVASCRIPT</span>
-          <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">WORDPRESS</span>
-          <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">UI / UX</span>
-          <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">IA GENERATIVA</span>
-          <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">CHATBOTS</span>
-          <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">AUTOMAÇÃO</span>
-          <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">BRANDING</span>
+          <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">COREL DRAW</span>
+          <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">CANVA</span>
+          <span class="font-mono text-[11px] px-3.5 py-2 border border-white/10 bg-white/5 text-white/60 hover:border-rt/60 hover:text-rt transition cursor-default">CAPCUT</span>
         </div>
 
-        <a data-reveal href="#contato" data-magnetic="0.25" class="clip-btn mt-10 inline-flex items-center gap-3 border border-rt/60 text-rt font-semibold px-8 py-4 hover:bg-rt hover:text-black transition-colors duration-300">
+        <a data-reveal href="contato.html" data-magnetic="0.25" class="clip-btn mt-10 inline-flex items-center gap-3 border border-rt/60 text-rt font-semibold px-8 py-4 hover:bg-rt hover:text-black transition-colors duration-300">
           VAMOS TRABALHAR JUNTOS <i data-lucide="arrow-right" class="w-5 h-5"></i>
         </a>
       </div>
@@ -443,14 +445,14 @@
           <i class="fas fa-mobile-alt text-xl"></i>
         </div>
         
-        <h3 class="relative font-display font-bold text-2xl md:text-3xl mt-8 uppercase">Aplicativos</h3>
+        <h3 class="relative font-display font-bold text-2xl md:text-3xl mt-8 uppercase">EDIÇÃO DE FOTOS E VÍDEOS</h3>
         <p class="relative text-white/55 mt-4 leading-relaxed text-[15px]">
-          Aplicativos mobile e web apps com interfaces intuitivas, prototipagem avançada e experiências que os usuários amam usar todos os dias.
+          Transformamos vídeos e fotografias em conteúdos de alto impacto, com edições modernas, criativas e profissionais que fortalecem a identidade da sua marca e despertam a atenção do seu público.
         </p>
         <div class="relative mt-6 flex flex-wrap gap-2">
-          <span class="font-mono text-[10px] tracking-widest px-3 py-1.5 border border-white/10 text-white/45">iOS & ANDROID</span>
-          <span class="font-mono text-[10px] tracking-widest px-3 py-1.5 border border-white/10 text-white/45">UI/UX DESIGN</span>
-          <span class="font-mono text-[10px] tracking-widest px-3 py-1.5 border border-white/10 text-white/45">PROTOTIPAGEM</span>
+          <span class="font-mono text-[10px] tracking-widest px-3 py-1.5 border border-white/10 text-white/45">EFEITOS</span>
+          <span class="font-mono text-[10px] tracking-widest px-3 py-1.5 border border-white/10 text-white/45">ÁUDIO</span>
+          <span class="font-mono text-[10px] tracking-widest px-3 py-1.5 border border-white/10 text-white/45">PROFISSIONAL</span>
         </div>
         
         <!-- Modificado: de data-lucide="arrow-up-right" para Font Awesome -->
