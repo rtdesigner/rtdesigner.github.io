@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Serviços — RTDesigner</title> 
+<meta name="description" content="RTDesigner — Richard Tavares. Conheça nossos serviços de design gráfico, sites, aplicativos e inteligência artificial para marcas que querem liderar o futuro.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cdefs%3E%3Cpath id='q' d='M0 -54 A54 54 0 0 0 -54 0 L0 0Z'/%3E%3C/defs%3E%3Cg transform='translate(60 60)'%3E%3Cuse href='%23q' fill='%23fecb1a'/%3E%3Cuse href='%23q' transform='rotate(90)' fill='%23f2f2f2'/%3E%3Cuse href='%23q' transform='rotate(180)' fill='%23161616'/%3E%3Cuse href='%23q' transform='rotate(270)' fill='%23161616'/%3E%3C/g%3E%3Ctext x='60' y='92' text-anchor='middle' font-family='Arial Black' font-weight='900' font-size='40' fill='white'%3Ert%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+<style type="text/tailwindcss">
+@theme {
+  --color-rt: #fecb1a;
+  --color-rt-soft: #ffe37e;
+  --color-ink: #050505;
+  --color-coal: #0a0a0a;
+  --color-panel: #0f0f0f;
+  --font-display: "Syne", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+</style>
+
+<style>
+  html { background: #050505; }
+  body { overflow-x: hidden; }
+  ::selection { background: #fecb1a; color: #000; }
+  .clip-btn { clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px); }
+  .bg-grid { background-image: linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px); background-size: 64px 64px; }
+  @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  .animate-floaty { animation: floaty 4.5s ease-in-out infinite; }
+  .nav-scrolled { background: rgba(5,5,5,.82); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-bottom: 1px solid rgba(255,255,255,.06); }
+  .nav-link { position: relative; }
+  .nav-link::after { content: ''; position: absolute; left: 0; bottom: -6px; width: 0; height: 1px; background: #fecb1a; transition: width .35s; }
+  .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+  .nav-link.active { color: #fecb1a !important; }
+</style>
+</head>
+
+<body class="bg-ink text-white font-sans antialiased selection:bg-rt selection:text-black">
+
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<div class="pointer-events-none fixed inset-0 z-[84] opacity-[.05]" style="background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E&quot;)"></div>
+
+<!-- ============ PRELOADER (Corrigido com imagem e barra de progresso) ============ -->
+<div id="preloader" class="fixed inset-0 z-[200] bg-ink flex items-center justify-center transition-all duration-700">
+  <div class="pre-inner flex flex-col items-center gap-9">
+    <div class="relative flex items-center justify-center w-56 h-24">
+      <img src="assets/img/Logo-RTDesigner.png" alt="RTDesigner" class="h-16 w-auto animate-floaty object-contain z-10">
+    </div>
+    <div class="text-center">
+      <div id="pre-num" class="font-display font-extrabold text-5xl text-rt tabular-nums">0%</div>
+      <div class="font-mono text-[10px] tracking-[.45em] text-white/40 mt-3 uppercase">Carregando serviços</div>
+    </div>
+    <div class="w-60 h-px bg-white/10 overflow-hidden">
+      <div id="pre-bar" class="h-full w-0 bg-rt transition-all duration-100 ease-out"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ NAVBAR ============ -->
+<header id="site-nav" class="fixed top-0 inset-x-0 z-[90] transition-all duration-500">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex items-center justify-between h-20">
+      <a href="index.html" class="flex items-center group" data-hover>
+        <img src="assets/img/Logo-RTDesigner.png" alt="RTDesigner" class="h-14 w-auto object-contain transition-opacity duration-300 group-hover:opacity-80">
+      </a>
+
+      <nav id="nav-links" class="hidden lg:flex items-center gap-9">
+        <a href="sobre.html" class="nav-link font-mono text-[11px] tracking-[.22em] text-white/60 hover:text-white transition uppercase"><span class="text-rt">01</span>&nbsp;Sobre</a>
+        <a href="servicos.html" class="nav-link active font-mono text-[11px] tracking-[.22em] text-white/60 hover:text-white transition uppercase"><span class="text-rt">02</span>&nbsp;Serviços</a>
+        <a href="portfolio.html" class="nav-link font-mono text-[11px] tracking-[.22em] text-white/60 hover:text-white transition uppercase"><span class="text-rt">03</span>&nbsp;Portfólio</a>
+        <a href="processo.html" class="nav-link font-mono text-[11px] tracking-[.22em] text-white/60 hover:text-white transition uppercase"><span class="text-rt">04</span>&nbsp;Processo</a>
+        <a href="contato.html" class="nav-link font-mono text-[11px] tracking-[.22em] text-white/60 hover:text-white transition uppercase"><span class="text-rt">05</span>&nbsp;Contato</a>
+      </nav>
+
+      <div class="flex items-center gap-4">
+        <a href="contato.html" data-magnetic="0.3" class="clip-btn hidden md:inline-flex items-center gap-2 bg-rt text-black font-semibold text-sm px-6 py-3 hover:bg-white transition-colors duration-300">
+          ORÇAMENTO <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+        </a>
+        <button id="menu-btn" aria-label="Abrir menu" class="lg:hidden relative w-11 h-11 border border-white/15 flex items-center justify-center text-white hover:border-rt hover:text-rt transition">
+          <i data-lucide="menu" class="w-5 h-5" id="icon-open"></i>
+          <i data-lucide="x" class="w-5 h-5 hidden" id="icon-close"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ MOBILE MENU ============ -->
+<div id="mobile-menu" class="fixed inset-0 z-[89] bg-ink/[.98] backdrop-blur-2xl translate-x-full transition-transform duration-500 ease-[cubic-bezier(.22,.61,.36,1)] lg:hidden flex flex-col justify-between pt-32 pb-10 px-8">
+  <nav class="flex flex-col gap-2">
+    <a href="sobre.html" class="mm-link"><span class="font-mono text-xs text-rt">01</span>Sobre</a>
+    <a href="servicos.html" class="mm-link"><span class="font-mono text-xs text-rt">02</span>Serviços</a>
+    <a href="portifolio.html" class="mm-link"><span class="font-mono text-xs text-rt">03</span>Portifólio</a>
+    <a href="processo.html" class="mm-link"><span class="font-mono text-xs text-rt">04</span>Processo</a>
+    <a href="contato.html" class="mm-link"><span class="font-mono text-xs text-rt">05</span>Contato</a>
+  </nav>
+  <div class="flex items-center justify-between">
+    <div class="flex gap-3">
+      <a href="https://www.instagram.com/rtdesignerofc/" aria-label="Instagram" class="w-10 h-10 border border-white/15 flex items-center justify-center text-white/60 hover:text-rt hover:border-rt transition"><i class="fab fa-instagram text-base"></i></a>
+    </div>
+    <span class="font-mono text-[10px] tracking-[.3em] text-white/30">RTD © 2026</span>
+  </div>
+</div>
+
+<main class="pt-28 lg:pt-36 pb-28">
+  
+  <!-- ============ INTRO SERVIÇOS ============ -->
+  <section id="servicos-hero" class="relative mb-24 lg:mb-32">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+      <div data-reveal class="flex items-center justify-center gap-4 mb-6">
+        <span class="font-mono text-xs text-rt tracking-[.3em]">// 02</span>
+        <span class="w-12 h-px bg-rt/50"></span>
+        <span class="font-mono text-xs text-white/40 tracking-[.3em] uppercase">Serviços</span>
+      </div>
+      <h1 data-reveal class="font-display font-extrabold text-5xl md:text-7xl uppercase leading-[1.02] tracking-tight mb-8">
+        Nossas <span class="text-rt">Soluções</span><br>
+        <span class="text-stroke">Digitais</span>
+      </h1>
+      <p data-reveal class="mt-8 text-white/60 leading-relaxed max-w-2xl mx-auto text-lg">
+        Do branding à inteligência artificial, unimos estratégia criativa e tecnologia de ponta para transformar sua marca em uma líder de mercado.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ GRID DE SERVIÇOS ============ -->
+  <section id="servicos-grid" class="relative">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-2 gap-8 lg:gap-10">
+        
+        <!-- Serviço 1 -->
+        <div data-reveal class="group relative p-10 border border-white/10 bg-panel/70 backdrop-blur rounded-2xl overflow-hidden hover:border-rt/50 transition-colors duration-500">
+          <div class="absolute inset-0 bg-grid opacity-60"></div>
+          <div class="absolute -top-24 -right-24 w-64 h-64 bg-rt/15 blur-[100px] rounded-full"></div>
+          <div class="relative flex items-center gap-5 mb-8">
+            <span class="font-display font-extrabold text-5xl text-stroke-rt group-hover:[-webkit-text-stroke:0px] group-hover:text-rt transition-all duration-700 select-none">01</span>
+            <h3 class="font-display font-bold text-2xl uppercase tracking-tight text-white group-hover:text-rt transition-colors">Design Gráfico</h3>
+          </div>
+          <p class="relative text-white/60 leading-relaxed mb-8">
+            Criamos identidades visuais poderosas que conectam e convertem. Do logo à estratégia de marca, construímos uma presença memorável.
+          </p>
+          <ul class="relative space-y-3 font-mono text-[11px] tracking-widest text-white/40 uppercase group-hover:text-white/70 transition-colors">
+            <li><i class="fas fa-check text-rt/70 mr-2.5"></i> Identidade Visual</li>
+            <li><i class="fas fa-check text-rt/70 mr-2.5"></i> Estratégia de Marca</li>
+            <li><i class="fas fa-check text-rt/70 mr-2.5"></i> Manual da Marca</li>
+            <li><i class="fas fa-check text-rt/70 mr-2.5"></i> Design Publicitário</li>
+          </ul>
+        </div>
+
+        <!-- Serviço 2 -->
+        <div data-reveal class="group relative p-10 border border-white/10 bg-panel/70 backdrop-blur rounded-2xl overflow-hidden hover:border-rt/50 transition-colors duration-500">
+          <div class="absolute inset-0 bg-grid opacity-60"></div>
+          <div class="absolute -top-24 -right-24 w-64 h-64 bg-rt/15 blur-[100px] rounded-full"></div>
+          <div class="relative flex items-center gap-5 mb-8">
+            <span class="font-display font-extrabold text-5xl text-stroke-rt group-hover:[-webkit-text-stroke:0px] group-hover:text-rt transition-all duration-700 select-none">02</span>
+            <h3 class="font-display font-bold text-2xl uppercase tracking-tight text-white group-hover:text-rt transition-colors">Sites &<br>Landing Pages</h3>
+          </div>
+          <p class="relative text-white/60 leading-relaxed mb-8">
+            Desenvolvemos experiências web focadas em performance e conversão. Sites rápidos, responsivos e otimizados para o Google.
+          </p>
+          <ul class="relative space-y-3 font-mono text-[11px] tracking-widest text-white/40 uppercase group-hover:text-white/70 transition-colors">
+            <li><i class="fas fa-check text-rt/70 mr-2.5"></i> Sites Responsivos</li>
+            <li><i class="fas fa-check text-rt/70 mr-2.5"></i> Landing Pages de Alta Conversão</li>
+            <li><i class="fas fa-check text-rt/70 mr-2.5"></i> E-commerce</li>
+            <li><i class="fas fa-check text-rt/70 mr-2.5"></i> Formativos</li>
+          </ul>
+        </div>
+
+        <!-- Serviço 3 -->
+        <div data-reveal class="group relative p-10 border border-white/10 bg-panel/70 backdrop-blur rounded-2xl overflow-hidden hover:border-rt/50 transition-colors duration-500">
+          <div class="absolute inset-0 bg-grid opacity-60"></div>
+          <div class="absolute -top-24 -right-24 w-64 h-64 bg-rt/15 blur-[100px] rounded-full"></div>
+          <div class="relative flex items-center gap-5 mb-8">
+            <span class="font-display font-extrabold text-5xl text-stroke-rt group-hover:[-webkit-text-stroke:0px] group-hover:text-rt transition-all duration-700 select-none">03</span>
+            <h3 class="font-display font-bold text-2xl uppercase tracking-tight text-white group-hover:text-rt transition-colors">EDIÇÃO DE<br>FOTOS E VÍDEOS</h3>
+          </div>
+          <p class="relative text-white/60 leading-relaxed mb-8">
+            Transformamos vídeos e fotografias em conteúdos de alto impacto, com edições modernas, criativas e profissionais que fortalecem a identidade da sua marca e despertam a atenção do seu público.
+          </p>
+          <ul class="relative space-y-3 font-mono text-[11px] tracking-widest text-white/40 uppercase group-hover:text-white/70 transition-colors">
+            <li><i class="fas fa-check text-rt/70 mr-2.5"></i> Seu vídeo em alta resolução</li>
+            <li><i class="fas fa-check text-rt/70 mr-2.5"></i> Editado por um profissional</li>
+            <li><i class="fas fa-check text-rt/70 mr-2.5"></i> Ferramentas profissionais</li>
+            <li><i class="fas fa-check text-rt/70 mr-2.5"></i> Resultado além da sua imaginação</li>
+          </ul>
+        </div>
+
+        <!-- Serviço 4 -->
+        <div data-reveal class="group relative p-10 border border-white/10 bg-panel/70 backdrop-blur rounded-2xl overflow-hidden hover:border-rt/50 transition-colors duration-500">
+          <div class="absolute inset-0 bg-grid opacity-60"></div>
+          <div class="absolute -top-24 -right-24 w-64 h-64 bg-rt/15 blur-[100px] rounded-full"></div>
+          <div class="relative flex items-center gap-5 mb-8">
+            <span class="font-display font-extrabold text-5xl text-stroke-rt group-hover:[-webkit-text-stroke:0px] group-hover:text-rt transition-all duration-700 select-none">04</span>
+            <h3 class="font-display font-bold text-2xl uppercase tracking-tight text-white group-hover:text-rt transition-colors">Inteligência Artificial</h3>
+          </div>
+          <p class="relative text-white/60 leading-relaxed mb-8">
+            Colocamos sua marca à frente do futuro com soluções de robô de IA, atráves da edição de vídeo, te entregar um resultado sensasional.
+          </p>
+          <ul class="relative space-y-3 font-mono text-[11px] tracking-widest text-white/40 uppercase group-hover:text-white/70 transition-colors">
+            <li><i class="fas fa-check text-rt/70 mr-2.5"></i> Soluções com IA robótica</li>
+            <li><i class="fas fa-check text-rt/70 mr-2.5"></i> Resultados Inteligentes</li>
+            <li><i class="fas fa-check text-rt/70 mr-2.5"></i> Processos incríveis</li>
+            <li><i class="fas fa-check text-rt/70 mr-2.5"></i> Profissional em IA</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA FINAL ============ -->
+  <section id="servicos-cta" class="relative mt-24 lg:mt-32">
+    <div class="max-w-7xl mx-auto px-6 text-center bg-panel border-y border-white/10 py-16 rounded-2xl overflow-hidden relative">
+      <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-rt/10 blur-[110px] rounded-full pointer-events-none"></div>
+      <div class="absolute -top-24 -right-24 w-72 h-72 bg-rt/[.08] blur-[110px] rounded-full pointer-events-none"></div>
+      
+      <h2 data-reveal class="font-display font-extrabold text-3xl md:text-5xl uppercase leading-tight tracking-tight mb-8 relative z-10">
+        Pronto para criar algo<br><span class="text-rt">extraordinário?</span>
+      </h2>
+      <a data-reveal href="contato.html" class="clip-btn inline-flex items-center justify-center gap-3 bg-rt text-black font-display font-bold text-lg px-10 py-5 hover:bg-white transition-colors duration-300 relative z-10">
+        SOLICITAR ORÇAMENTO <i class="fas fa-paper-plane text-base"></i>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="relative border-t border-white/10 pt-16 pb-8 overflow-hidden">
+  <div class="absolute -bottom-40 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-rt/[.05] blur-[140px] rounded-full pointer-events-none"></div>
+  <div class="relative max-w-7xl mx-auto px-6">
+
+    <div class="grid md:grid-cols-4 gap-10">
+      <div class="md:col-span-2">
+        <div class="flex items-center">
+          <img src="assets/img/Logo-RTDesigner.png" alt="RTDesigner" class="h-20 w-auto object-contain">
+        </div>
+        <p class="text-white/45 text-sm leading-relaxed mt-5 max-w-sm">
+          Estúdio criativo de Richard Tavares. Design gráfico, websites, aplicativos e inteligência artificial para marcas que querem liderar o futuro.
+        </p>
+        
+        <div class="flex gap-3 mt-6">
+          <a href="https://www.instagram.com/rtdesignerofc/" aria-label="Instagram" class="w-10 h-10 border border-white/15 flex items-center justify-center text-white/60 hover:text-rt hover:border-rt transition"><i class="fab fa-instagram text-base"></i></a>
+        </div>
+
+        <p class="font-mono text-[10px] tracking-[.3em] text-rt/70 uppercase mt-6">Performance // Web // AI // Digital</p>
+      </div>
+      <div>
+        <h4 class="font-mono text-[11px] tracking-[.3em] text-white/40 uppercase mb-5">Navegação</h4>
+        <ul class="space-y-3 text-sm">
+          <li><a href="sobre.html" class="text-white/60 hover:text-rt transition">Sobre mim</a></li>
+          <li><a href="servicos.html" class="text-white/60 hover:text-rt transition">Serviços</a></li>
+          <li><a href="portfolio.html" class="text-white/60 hover:text-rt transition">Portfólio</a></li>
+          <li><a href="processo.html" class="text-white/60 hover:text-rt transition">Processo</a></li>
+          <li><a href="contato.html" class="text-white/60 hover:text-rt transition">Contato</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-mono text-[11px] tracking-[.3em] text-white/40 uppercase mb-5">Expertise</h4>
+        <ul class="space-y-3 text-sm">
+          <li class="text-white/60">Design Gráfico & Branding</li>
+          <li class="text-white/60">Sites & Landing Pages</li>
+          <li class="text-white/60">Aplicativos & UI/UX</li>
+          <li class="text-white/60">Inteligência Artificial</li>
+          <li class="text-white/60">Automação & Chatbots</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-14 pt-7 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-5">
+      <p class="font-mono text-[11px] text-white/35 tracking-wider text-center sm:text-left">
+        © <span>2026</span> RTDesigner. Todos os direitos reservados.
+      </p>
+      <button id="to-top" aria-label="Voltar ao topo" class="clip-btn inline-flex items-center gap-2 border border-white/15 text-white/60 font-mono text-[11px] tracking-[.25em] px-5 py-3 hover:border-rt hover:text-rt transition uppercase">
+        Topo <i data-lucide="arrow-up" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </div>
+</footer>
+
+<!-- Ícones do Lucide -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+  lucide.createIcons();
+  
+  // Preloader Corrigido e Funcional
+  window.addEventListener('DOMContentLoaded', () => {
+    const preloader = document.getElementById('preloader');
+    const preNum = document.getElementById('pre-num');
+    const preBar = document.getElementById('pre-bar');
+    let count = 0;
+    
+    const interval = setInterval(() => {
+      count += Math.floor(Math.random() * 12) + 4;
+      if (count >= 100) {
+        count = 100;
+        clearInterval(interval);
+        setTimeout(() => {
+          if (preloader) preloader.classList.add('opacity-0', 'pointer-events-none');
+        }, 350);
+      }
+      if(preNum) preNum.innerText = count + '%';
+      if(preBar) preBar.style.width = count + '%';
+    }, 45);
+  });
+
+  // Scripts Comuns (Navbar, Scroll Top, Menu Mobile)
+  const scrollToTop = (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+  document.getElementById('to-top')?.addEventListener('click', scrollToTop);
+  document.getElementById('footer-logo-btn')?.addEventListener('click', scrollToTop);
+
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  menuBtn?.addEventListener('click', () => { mobileMenu?.classList.toggle('translate-x-full'); });
+</script>
+
+</body>
+</html>
